@@ -4,6 +4,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import SaveButton from './SaveButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Hearts } from 'react-loading-icons';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import PayPal from './Paypal';
 import './css/textpage.css';
@@ -183,8 +184,8 @@ const TranscribeAudio = () => {
         )}
       </div>
       {transcribing && (
-        <div className="container-sm border border-primary" style={{ marginBottom: '2%' }}>
-          <FontAwesomeIcon icon="fa-solid fa-bars-progress" spin />{/* Display LinearProgress component while transcribing */}
+        <div className="container-sm border border-primary" style={{ marginBottom: '2%', backgroundColor:'black', textAlign:'center', borderRadius:'10px' }}>
+          <Hearts /> <span style={{color:'white'}}>- Listening and typing...</span>{/* Display LinearProgress component while transcribing */}
         </div>
       )}
       {transcriptionText && (
