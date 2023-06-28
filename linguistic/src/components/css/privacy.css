@@ -1,0 +1,23 @@
+.container {
+    margin: 40px auto;
+    max-width: 800px;
+    padding: 0 20px;
+  }
+  
+  .heading {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .content {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  
+  .updated {
+    margin-top: 40px;
+    font-size: 14px;
+    color: #888;
+  }
+  

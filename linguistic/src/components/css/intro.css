@@ -1,0 +1,40 @@
+  
+  .left-half {
+    flex: 1;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .left-half h2 {
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .right-half {
+    flex: 1;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .right-half p {
+    max-width: 400px;
+    text-align: center;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+    
+    .left-half, .right-half {
+      flex: 1;
+      height: auto;
+    }
+  }

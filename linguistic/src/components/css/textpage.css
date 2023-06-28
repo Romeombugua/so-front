@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* Set a base font size and color */
+
+  /* Create a container with centered content */
+
+  /* Style the form */
+  .upload-form {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  .upload-form h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .upload-form p {
+    color: #777;
+    margin-bottom: 1rem;
+  }
+
+  .upload-form input[type="file"] {
+    margin-bottom: 1rem;
+  }
+
+  .upload-form button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .upload-form button:hover {
+    background-color: #0056b3;
+  }
+
+  .upload-form button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
