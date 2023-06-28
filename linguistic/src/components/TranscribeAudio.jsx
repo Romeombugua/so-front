@@ -3,7 +3,7 @@ import axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import SaveButton from './SaveButton';
-import LinearProgress from '@mui/material/LinearProgress';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import PayPal from './Paypal';
 import './css/textpage.css';
@@ -184,7 +184,7 @@ const TranscribeAudio = () => {
       </div>
       {transcribing && (
         <div className="container-sm border border-primary" style={{ marginBottom: '2%' }}>
-          <LinearProgress style={{ height: '5px' }} /> {/* Display LinearProgress component while transcribing */}
+          <FontAwesomeIcon icon="fa-solid fa-bars-progress" spin />{/* Display LinearProgress component while transcribing */}
         </div>
       )}
       {transcriptionText && (

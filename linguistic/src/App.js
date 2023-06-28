@@ -3,7 +3,6 @@ import './index.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home, UploadAudioGo, TranscriptionList, TranslationList, TranslateAudio , TranscribeAudio, TranslateAudioGo, TheOffice, About} from './components';
 import { Signup, Login, ResetPassword, ResetPasswordConfirm, Activate} from './containers';
-import { Box } from "@mui/material";
 import { Provider } from 'react-redux';
 import store from './store';
 import Layout from './hocs/Layout';
