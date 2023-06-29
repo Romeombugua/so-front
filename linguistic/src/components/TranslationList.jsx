@@ -12,7 +12,7 @@ const TranslationList = () => {
       const decodedToken = jwt_decode(access);
       const userId = decodedToken.user_id;
 
-      fetch(`http://localhost:8000/api/translate/user/${userId}`, {
+      fetch(`${process.env.REACT_APP_API_URL}/api/translate/user/${userId}`, {
         headers: {
           'Authorization': `JWT ${access}`,
         },
@@ -46,7 +46,7 @@ const TranslationList = () => {
     // Send a DELETE request to your Django API to delete the translation
     const access = localStorage.getItem('access');
     if (access) {
-      fetch(`http://localhost:8000/api/translate/${id}`, {
+      fetch(`${process.env.REACT_APP_API_URL}/api/translate/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `JWT ${access}`,

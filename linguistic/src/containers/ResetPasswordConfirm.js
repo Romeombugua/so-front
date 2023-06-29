@@ -9,6 +9,7 @@ const ResetPasswordConfirm = ({ reset_password_confirm }) => {
         new_password: '',
         re_new_password: ''
     });
+    const [error, setError] = useState(null);
 
     const { uid, token } = useParams();
     const { new_password, re_new_password } = formData;
@@ -17,9 +18,13 @@ const ResetPasswordConfirm = ({ reset_password_confirm }) => {
 
     const onSubmit = e => {
         e.preventDefault();
+        if (new_password === re_new_password){
+            reset_password_confirm(uid, token, new_password, re_new_password);
+            setRequestSent(true);
+        }else{
+            setError("Passwords don't match");
+        }
 
-        reset_password_confirm(uid, token, new_password, re_new_password);
-        setRequestSent(true);
     };
 
     if (requestSent) {
@@ -27,7 +32,8 @@ const ResetPasswordConfirm = ({ reset_password_confirm }) => {
     }
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-5" style={{boxShadow: '0 2px 4px rgba(0, 0, 0, 0.4)', padding:'20px'}}>
+            {error && <div className="alert alert-danger">{error}</div>}
             <form onSubmit={e => onSubmit(e)}>
                 <div className="form-group">
                     <input

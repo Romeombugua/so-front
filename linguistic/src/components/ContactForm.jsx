@@ -23,7 +23,7 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
-    fetch('http://localhost:8000/api/contactus', {
+    fetch(`${process.env.REACT_APP_API_URL}/api/contactus`, {
       method: 'POST',
       body: data,
     });

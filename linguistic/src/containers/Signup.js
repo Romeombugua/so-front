@@ -21,15 +21,30 @@ const Signup = ({ signup, isAuthenticated }) => {
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
-
-    if (password === re_password) {
-      signup(first_name, last_name, email, password, re_password);
+    try {
+      await signup(first_name, last_name, email, password, re_password);
       setAccountCreated(true);
-    }else{
-      setError("Passwords don't match");
+    } catch (err) {
+      if (err.response && err.response.data) {
+        if (err.response.data.email) {
+          setError(err.response.data.email);
+        } else if (err.response.data.password) {
+          setError(err.response.data.password);
+        } else if (err.response.data.non_field_errors) {
+          setError(err.response.data.non_field_errors);
+        } else if (err.response.data.detail){
+          setError(err.response.data.detail);
+        } 
+        else {
+          setError('An error occurred. Please try again.');
+        }
+      } else {
+        setError('An error occurred. Please try again.');
+      }
     }
+
   };
 
   const continueWithGoogle = async () => {
@@ -67,6 +82,7 @@ const Signup = ({ signup, isAuthenticated }) => {
             <div className="card-body">
               <h1 className="card-title text-center">Sign Up</h1>
               <p className="card-text text-center">Create your Account</p>
+              {error && <div className="alert alert-danger">{error}</div>}
               <form onSubmit={e => onSubmit(e)}>
                 <div className="form-group">
                   <input
@@ -113,7 +129,7 @@ const Signup = ({ signup, isAuthenticated }) => {
                     required
                   />
                 </div>
-                {error && <div className="alert alert-danger">{error}</div>}
+                
                 <div className="form-group">
                   <input
                     className="form-control"

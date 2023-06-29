@@ -12,7 +12,7 @@ const TranscriptionList = () => {
       const decodedToken = jwt_decode(access);
       const userId = decodedToken.user_id;
 
-      fetch(`http://localhost:8000/api/transcripts/user/${userId}`, {
+      fetch(`${process.env.REACT_APP_API_URL}/api/transcripts/user/${userId}`, {
         headers: {
           'Authorization': `JWT ${access}`,
         },
@@ -44,7 +44,7 @@ const TranscriptionList = () => {
     // Send a DELETE request to your Django API endpoint to delete the transcription
     const access = localStorage.getItem('access');
     if (access) {
-      fetch(`http://localhost:8000/api/transcripts/${transcriptionId}`, {
+      fetch(`${process.env.REACT_APP_API_URL}/api/transcripts/${transcriptionId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `JWT ${access}`,

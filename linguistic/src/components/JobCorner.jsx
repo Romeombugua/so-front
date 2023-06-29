@@ -17,7 +17,7 @@ const JobCorner = () => {
   }; 
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/theoffice/${id}`, config)
+    fetch(`${process.env.REACT_APP_API_URL}/api/theoffice/${id}`, config)
       .then(response => response.json())
       .then(data => {
         setTranscriptionText(data.transcription_text);
@@ -33,7 +33,7 @@ const JobCorner = () => {
     formData.append('transcription_text', transcriptionText);
 
     try {
-      await axios.patch(`http://localhost:8000/api/theoffice/${id}`, formData, config); // Use the appropriate API endpoint for updating the transcription
+      await axios.patch(`${process.env.REACT_APP_API_URL}/api/theoffice/${id}`, formData, config); // Use the appropriate API endpoint for updating the transcription
       setSaved(true);
     } catch (error) {
       console.log(error);

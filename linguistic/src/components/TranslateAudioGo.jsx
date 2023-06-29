@@ -49,7 +49,7 @@ const TranslateAudioGo = () => {
 
     try {
       setTranscribing(true);
-      const response = await axios.post('http://localhost:8000/api/translatego', formData);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/translatego`, formData);
       setTranslationText(response.data.translation_text);
       setId(response.data.id);
       setTranslationFile(response.data.translation_file);
@@ -64,7 +64,7 @@ const TranslateAudioGo = () => {
     const formData = new FormData();
     formData.append('translation_text', translationText);
 
-    axios.patch(`http://localhost:8000/api/translatego/${id}`, formData) // Use the appropriate API endpoint for updating the transcription
+    axios.patch(`${process.env.REACT_APP_API_URL}/api/translatego/${id}`, formData) // Use the appropriate API endpoint for updating the transcription
       .then((response) => {
         setSaved(true);
       })
@@ -96,7 +96,7 @@ const TranslateAudioGo = () => {
     }
   };
   const handleDelete = () => {
-    axios.delete(`http://localhost:8000/api/translatego/${id}`)
+    axios.delete(`${process.env.REACT_APP_API_URL}/api/translatego/${id}`)
       .then(() => {
         setAudioFile(null);
         setTranslationText('');

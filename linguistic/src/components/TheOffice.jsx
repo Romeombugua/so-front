@@ -12,7 +12,7 @@ const TheOffice = () => {
       const decodedToken = jwt_decode(access);
       const userId = decodedToken.user_id;
 
-      fetch(`http://localhost:8000/api/theoffice`, {
+      fetch(`${process.env.REACT_APP_API_URL}/api/theoffice`, {
         headers: {
           'Authorization': `JWT ${access}`,
         },

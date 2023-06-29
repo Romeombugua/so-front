@@ -55,7 +55,7 @@ const TranslateAudio = () => {
 
     try {
       setTranscribing(true);
-      const response = await axios.post('http://localhost:8000/api/translate', formData, config);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/translate`, formData, config);
       setTranslationText(response.data.translation_text);
       setId(response.data.id);
       setTranslationFile(response.data.translation_file);
@@ -73,7 +73,7 @@ const TranslateAudio = () => {
     formData.append('translation_text', translationText);
 
     try {
-      await axios.patch(`http://localhost:8000/api/translate/${id}`, formData, config); // Use the appropriate API endpoint for updating the transcription
+      await axios.patch(`${process.env.REACT_APP_API_URL}/api/translate/${id}`, formData, config); // Use the appropriate API endpoint for updating the transcription
       setSaved(true);
     } catch (error) {
       console.log(error);

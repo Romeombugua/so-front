@@ -3,7 +3,6 @@ import axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import SaveButton from './SaveButton';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Hearts } from 'react-loading-icons';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import PayPal from './Paypal';
@@ -69,7 +68,7 @@ const TranscribeAudio = () => {
   
       try {
         setTranscribing(true);
-        const response = await axios.post('http://localhost:8000/api/transcripts', formData, config);
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/transcripts`, formData, config);
         setTranscriptionText(response.data.transcription_text);
         setId(response.data.id);
         setTranscriptionFile(response.data.transcription_file);
@@ -92,7 +91,7 @@ const TranscribeAudio = () => {
 
   const handleReview = async () => {
     try {
-      await axios.patch(`http://localhost:8000/api/transcripts/${id}`, { review: true }, config); // Use the appropriate API endpoint for updating the transcription
+      await axios.patch(`${process.env.REACT_APP_API_URL}/api/transcripts/${id}`, { review: true }, config); // Use the appropriate API endpoint for updating the transcription
       // Update the local state or perform any other necessary actions
     } catch (error) {
       console.log(error);
@@ -104,7 +103,7 @@ const TranscribeAudio = () => {
     formData.append('transcription_text', transcriptionText);
 
     try {
-      await axios.patch(`http://localhost:8000/api/transcripts/${id}`, formData, config); // Use the appropriate API endpoint for updating the transcription
+      await axios.patch(`${process.env.REACT_APP_API_URL}/api/transcripts/${id}`, formData, config); // Use the appropriate API endpoint for updating the transcription
       setSaved(true);
     } catch (error) {
       console.log(error);

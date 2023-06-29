@@ -50,7 +50,7 @@ const UploadAudioGo = () => {
 
     try {
       setTranscribing(true);
-      const response = await axios.post('http://localhost:8000/api/transcribego', formData);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/transcribego`, formData);
       setTranscriptionText(response.data.transcription_text);
       setId(response.data.id);
       setTranscriptionFile(response.data.transcription_file);
@@ -66,7 +66,7 @@ const UploadAudioGo = () => {
     formData.append('transcription_text', transcriptionText);
 
     axios
-      .patch(`http://localhost:8000/api/transcribego/${id}`, formData) // Use the appropriate API endpoint for updating the transcription
+      .patch(`${process.env.REACT_APP_API_URL}/api/transcribego/${id}`, formData) // Use the appropriate API endpoint for updating the transcription
       .then((response) => {
         setSaved(true);
       })
@@ -100,7 +100,7 @@ const UploadAudioGo = () => {
 
   const handleDelete = () => {
     axios
-      .delete(`http://localhost:8000/api/transcribego/${id}`)
+      .delete(`${process.env.REACT_APP_API_URL}/api/transcribego/${id}`)
       .then(() => {
         setAudioFile(null);
         setTranscriptionText('');
