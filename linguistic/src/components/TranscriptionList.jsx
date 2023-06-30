@@ -19,7 +19,6 @@ const TranscriptionList = () => {
       })
       .then(response => response.json())
       .then(data => setTranscriptions(data));
-
     }
   }, []);
 
@@ -64,22 +63,38 @@ const TranscriptionList = () => {
     }
   };
 
+  const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.slice(0, maxLength) + "...";
+  };
+
+  const [expandedTranscriptionId, setExpandedTranscriptionId] = useState(null);
+
+  const handleExpandClick = (transcriptionId) => {
+    if (expandedTranscriptionId === transcriptionId) {
+      setExpandedTranscriptionId(null);
+    } else {
+      setExpandedTranscriptionId(transcriptionId);
+    }
+  };
+
   return (
     <div>
-      <h3 style={{textAlign:'center', margin:'2.5%', fontFamily:'"Lucida Console", "Courier New", monospace'}}>What our patnership yielded</h3>
+      <h3 style={{ textAlign: 'center', margin: '2.5%', fontFamily: '"Lucida Console", "Courier New", monospace' }}>What our partnership yielded</h3>
       {transcriptions.length === 0 ? (
-        <div className="container shadow p-3 mb-5 bg-white rounded" style={{ textAlign: 'center', margin:'auto' }}>
+        <div className="container shadow p-3 mb-5 bg-white rounded" style={{ textAlign: 'center', margin: 'auto' }}>
           <p>There is nothing here. &#128546;</p>
 
-          <div style={{width:'100%', height:'100%'}}>
-            <iframe title='gif' src="https://giphy.com/embed/CZzzbi9AZbn1K"  class="giphy-embed" allowFullScreen>
-              </iframe>
+          <div style={{ width: '100%', height: '100%' }}>
+            <iframe title='gif' src="https://giphy.com/embed/CZzzbi9AZbn1K" class="giphy-embed" allowFullScreen></iframe>
           </div>
 
           <Link to="/transcribe">
             Get started?
-          </Link> 
-              
+          </Link>
+
         </div>
       ) : (
         transcriptions.map(transcription => (
@@ -96,7 +111,20 @@ const TranscriptionList = () => {
               )}
             </div>
             <div className="p-3">
-              <p>Text: {transcription.transcription_text}</p>
+              <p>
+                Text:{" "}
+                {expandedTranscriptionId === transcription.id
+                  ? transcription.transcription_text
+                  : truncateText(transcription.transcription_text, 100)}
+              </p>
+              {transcription.transcription_text.length > 100 && (
+                <button
+                  onClick={() => handleExpandClick(transcription.id)}
+                  className="btn btn-link"
+                >
+                  {expandedTranscriptionId === transcription.id ? "Read Less" : "Read More"}
+                </button>
+              )}
             </div>
             {transcription.transcription_file && (
               <div>

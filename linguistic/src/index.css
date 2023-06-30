@@ -118,8 +118,9 @@ p {
 }
 
 .typed-text {
-  color: #333;
-  white-space: nowrap;
+  color: #fff;
+  text-shadow: 4px 4px 7px #000000;
+  white-space: normal;
   overflow: hidden;
   width: 0;
   animation-duration: 3s;

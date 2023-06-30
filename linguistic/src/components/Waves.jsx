@@ -1,6 +1,23 @@
 import React, { useEffect } from 'react';
 
 const Waves = () => {
+  const now = new Date();
+  const day = now.toLocaleDateString('en-US', { weekday: 'long' });
+  const hour = now.getHours();
+  let period;
+
+  // Determine the period of the day
+  if (hour >= 5 && hour < 12) {
+    period = 'morning';
+  } else if (hour >= 12 && hour < 18) {
+    period = 'afternoon';
+  } else if (hour >= 18 && hour < 22) {
+    period = 'evening';
+  } else {
+    period = 'night';
+  }
+
+
   useEffect(() => {
     const typedText = document.querySelectorAll('.typed-text');
     const texts = Array.from(typedText).map((element) => element.textContent);
@@ -41,7 +58,7 @@ const Waves = () => {
         {/* Just the logo.. Don't mind this */}
         <br />
         <div className="typed-container">
-          <span className="typed-text">Hello, world! Lets start building from here!</span>
+          <span className="typed-text">{`A fine ${day} ${period}, let's kick off the challenge!`}</span>
           <div className="sub-text">
             <span className="typed-text" id="transcribe">transcribe</span> |
             <span className="typed-text" id="translate">translate</span>
