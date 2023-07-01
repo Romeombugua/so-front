@@ -8,13 +8,13 @@ const About = () => {
             <div className="about-content">
                 <h2 className="about-subheading">Our Mission</h2>
                 <p className="about-description">
-                    At [Your App Name], we believe in breaking language barriers and making communication easier for everyone.
+                    At LinguifyHub, we believe in breaking language barriers and making communication easier for everyone.
                     Our mission is to provide a seamless transcription and translation experience that helps people connect and
                     understand each other better.
                 </p>
                 <h2 className="about-subheading">How It Works</h2>
                 <p className="about-description">
-                    [Your App Name] utilizes state-of-the-art speech recognition and machine translation technologies to transcribe
+                    Linguify utilizes state-of-the-art speech recognition and machine translation technologies to transcribe
                     spoken content and translate it into multiple languages. With our user-friendly interface, you can easily upload
                     audio files or record your voice directly on our platform. Our robust backend processes the audio, generating
                     accurate transcriptions and translations that can be downloaded or shared effortlessly. 
