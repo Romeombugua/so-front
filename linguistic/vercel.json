@@ -1,7 +1,0 @@
-{
-    "build": {
-      "env": {
-        "VERCEL_ROUTER_INCLUDE": "http://16.171.146.46:8000/*"
-      }
-    }
-  }
