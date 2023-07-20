@@ -33,7 +33,7 @@ const Navbar = ({ isAuthenticated, logout }) => {
   );
 
   return (
-    <nav className='navbar navbar-expand-lg navbar-light bg-light'>
+    <nav className='navbar navbar-expand-lg navbar-light bg-light fixed-top'>
       <div className='container'>
         <Link className='navbar-brand' to='/'>LinguifyHub</Link>
         <button className='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav'
