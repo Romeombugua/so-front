@@ -62,9 +62,8 @@ const Home = ({ isAuthenticated }) => {
             <h2>Transcribe</h2>
             <p id='transcribe'>
               Whether it's interviews, lectures, podcasts, or any other audio content, we're here to provide accurate and reliable transcriptions that unlock the power of information.
-              Our commitment to excellence and quick turnaround times means you can trust us to deliver results that exceed your expectations.
-              Embrace the convenience and efficiency of our transcription services, allowing you to focus on what truly matters while we transform your audio into a beautifully transcribed masterpiece.
-              Experience the ease of accessing and sharing your content with our reliable and professional transcription solutions. Let us be your trusted partner in bringing your words to life.
+              Focus on what truly matters while we transform your audio into a beautifully transcribed masterpiece.
+              Let us be your trusted partner in bringing your words to life.
             </p>
             {isAuthenticated ? authscribeLinks() : guestscribeLinks()}
           </div>
@@ -80,9 +79,7 @@ const Home = ({ isAuthenticated }) => {
             <h2>Translate</h2>
               <p >
                 Here, words take flight and soar across borders, carrying with them the power to bridge cultures, connect hearts, and unlock new worlds. 
-                Whether you seek to unveil the poetic elegance of a foreign verse, unravel the mysteries of a captivating tale, or simply exchange greetings with newfound friends, our translation services stand ready to paint the canvas of understanding with vibrant strokes of linguistic mastery. 
                 Embark on a journey of words, where every sentence is an adventure, and every translation a gateway to boundless possibilities. 
-                Let us be your compass, guiding you through the vast tapestry of languages, as we celebrate the beauty and diversity of human expression. 
                 
               </p>
               {isAuthenticated ? authtranslateLinks() : guesttranslateLinks()}
