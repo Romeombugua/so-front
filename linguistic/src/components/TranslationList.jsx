@@ -87,9 +87,9 @@ const TranslationList = () => {
 
   return (
     <div>
-      <h3 style={{ textAlign: 'center', margin: '2.5%', fontFamily: '"Lucida Console", "Courier New", monospace' }}>What our partnership yielded</h3>
+      <h3 style={{ textAlign: 'center', margin: '2.5em', fontFamily: '"Lucida Console", "Courier New", monospace' }}>What our partnership yielded</h3>
       {translations.length === 0 ? (
-        <div className="container shadow p-3 mb-5 bg-white rounded" style={{ textAlign: 'center', margin: 'auto' }}>
+        <div className="container shadow p-3 mb-5 bg-white rounded" style={{ textAlign: 'center', marginTop: '7.5em' }}>
           <p>There is nothing here. &#128546;</p>
 
           <div style={{ width: '100%', height: '100%' }}>

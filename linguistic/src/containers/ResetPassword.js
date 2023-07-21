@@ -26,7 +26,7 @@ const ResetPassword = ({ reset_password }) => {
     }
 
     return (
-        <div className='container mt-5'>
+        <div className="container shadow p-3 bg-white rounded" style={{marginTop:"7.5em"}}>
             <h1>Request Password Reset:</h1>
             <form onSubmit={e => onSubmit(e)}>
                 <div className='form-group'>

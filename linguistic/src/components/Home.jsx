@@ -10,6 +10,7 @@ import Navbar from './Navbar';
 import Foota from './Foota';
 import ContactForm from './ContactForm';
 import Intro from './Intro';
+import Poster from './Poster';
 
 const Home = ({ isAuthenticated }) => {
   const guestscribeLinks = () => (
@@ -80,10 +81,13 @@ const Home = ({ isAuthenticated }) => {
               <p >
                 Here, words take flight and soar across borders, carrying with them the power to bridge cultures, connect hearts, and unlock new worlds. 
                 Embark on a journey of words, where every sentence is an adventure, and every translation a gateway to boundless possibilities. 
-                
+                Translate audio file in any language to English!
               </p>
               {isAuthenticated ? authtranslateLinks() : guesttranslateLinks()}
           </div>
+        </section>
+        <section>
+          <Poster/>
         </section>
         <section>
           <HowItWorks/>
@@ -101,9 +105,9 @@ const Home = ({ isAuthenticated }) => {
                   <div className="card-body">
                     <h3 className="text-xl font-bold mb-4">Transcription</h3>
                     <div className="text-muted">
-                        <p style={{}}>For audio longer than 2 minutes: $0.30 per audio minute</p>
-                        <p style={{}}>For audio less than 2 minutes: Fixed rate of $0.50</p>
-                        <p>Reviewing: Additional $0.40 per minute</p>
+                        <p style={{}}>For audio longer than 2 minutes: $0.20 per audio minute</p>
+                        <p style={{}}>For audio less than 2 minutes: Fixed rate of $0.40</p>
+                        <p>Reviewing: Additional $0.50 per minute</p>
                         <p>Currently, we only review transcripts for English audio only😢</p>
                     </div>
                   </div>
@@ -112,8 +116,8 @@ const Home = ({ isAuthenticated }) => {
                   <div className="card-body">
                     <h3 className="text-xl font-bold mb-4">Translation</h3>
                     <div className="text-muted">
-                        <p style={{}}>For audio longer than 2 minutes: $0.30 per audio minute</p>
-                        <p style={{}}>For audio less than 2 minutes: Fixed rate of $0.50</p>
+                        <p style={{}}>For audio longer than 2 minutes: $0.20 per audio minute</p>
+                        <p style={{}}>For audio less than 2 minutes: Fixed rate of $0.40</p>
                         <p>Currently, we do not offer reviews for translated audio😭</p>
                     </div>
                   </div>

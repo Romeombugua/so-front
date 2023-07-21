@@ -28,6 +28,7 @@
   .about-text {
     font-style: italic;
     color: #888;
+    margin-top: -5em;
   }
   .fade-in {
     opacity: 0;

@@ -13,3 +13,4 @@ export {default as Careers} from './Careers';
 export {default as Privacy} from './Privacy';
 export {default as ContactForm} from './ContactForm';
 export {default as Paypal} from './Paypal';
+export {default as Poster} from './Poster';

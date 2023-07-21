@@ -12,6 +12,7 @@ const TranscribeAudio = () => {
   const [audioFile, setAudioFile] = useState(null);
   const [transcriptionText, setTranscriptionText] = useState('');
   const [saved, setSaved] = useState(false); // Track if changes are saved
+  const [user_id, setUserId] = useState(null);
   const [id, setId] = useState(null);
   const [transcriptionFile, setTranscriptionFile] = useState(null);
   const [transcribing, setTranscribing] = useState(false);
@@ -22,6 +23,8 @@ const TranscribeAudio = () => {
   const [amount, setAmount] = useState(0.50); // Default amount value
   const [reviewAmount, setReviewAmount] = useState(0);
   const [reviewButtonDisabled, setReviewButtonDisabled] = useState(false); // Track review button disabled status
+  const [remainingFreeMinutes, setRemainingFreeMinutes] = useState(null);
+  const [audioDuration, setAudioDuration] = useState(null);
   const audioPlayerRef = useRef(null);
 
   const config = {
@@ -30,9 +33,48 @@ const TranscribeAudio = () => {
     },
   };
 
+  useEffect(() => {
+    // Call fetchRemainingFreeMinutes here when the component mounts
+    const user_id = localStorage.getItem('user_id');
+    setUserId(user_id);
+
+    // ... Other useEffect logic ...
+
+  }, []);
+
+  useEffect(() => {
+    // Fetch remaining free minutes when user_id is available
+    if (user_id) {
+      fetchRemainingFreeMinutes();
+    }
+    // ... Other useEffect logic ...
+
+  }, [user_id]);
+
   const handleUpload = (e) => {
     const file = e.target.files[0];
     setAudioFile(file);
+  };
+
+  
+  const fetchRemainingFreeMinutes = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/free/${user_id}`, config);
+      setRemainingFreeMinutes(response.data.remainingfreeminutes);
+    } catch (error) {
+      console.error('Error fetching remaining free minutes:', error);
+    }
+  };
+
+  const handleUpdateRemainingFreeMinutes = async (newMinutes) => {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/free/${user_id}`, {
+        remainingfreeminutes: newMinutes,
+      }, config);
+      setRemainingFreeMinutes(response.data.remainingfreeminutes);
+    } catch (error) {
+      console.error('Error updating remaining free minutes:', error);
+    }
   };
 
   const handlePaymentApprove = async (data, actions) => {
@@ -77,6 +119,18 @@ const TranscribeAudio = () => {
       } finally {
         setTranscribing(false); // Set transcribing state back to false when transcription is completed or encounters an error
       }
+  };
+
+  const handleTranscribeWithFreeTrial = async () => {
+    if (remainingFreeMinutes <= 0) {
+      setShowPayPalButtons(true);
+      window.alert('Your free trial has ended. Please complete your payment using one of our secure payment options.');
+    } else {
+      handleTranscribe();
+      const remainder = remainingFreeMinutes - audioDuration;
+      handleUpdateRemainingFreeMinutes(remainder);
+
+    }
   };
 
   const payButtons = async () => {
@@ -129,11 +183,12 @@ const TranscribeAudio = () => {
     }
   };
 
-  const handleEditorChange = (value) => {
+  const handleEditorChange = (event) => {
     // Insert line breaks before and after timestamps
-    const formattedValue = value.replace(/(\d{2}:\d{2}:\d{2},\d{3})/g, '$1<br>');
+    const value = event.target.value;
+    //const formattedValue = value.replace(/(\d{2}:\d{2}:\d{2},\d{3})/g, '$1\n');
 
-    setTranscriptionText(formattedValue);
+    setTranscriptionText(value);
   };
 
   const handleResponseFormatChange = (event) => {
@@ -144,10 +199,12 @@ const TranscribeAudio = () => {
     if (audioFile) {
       const audio = new Audio();
       audio.src = URL.createObjectURL(audioFile);
+      
 
       audio.addEventListener('loadedmetadata', () => {
         const duration = audio.duration / 60;
         const maxLength = 2; // 2 minutes in seconds
+        setAudioDuration(duration);
         
         
 
@@ -160,6 +217,9 @@ const TranscribeAudio = () => {
           setAmount(0.50);
           setReviewAmount(0.40);
         }
+        if (duration > remainingFreeMinutes) {
+          setShowPayPalButtons(true);
+        }
       });
 
       return () => {
@@ -169,13 +229,15 @@ const TranscribeAudio = () => {
   }, [audioFile]);
 
 
+
+
   const initialOptions = {
     'client-id': 'AYHSg9MQnZAo6vDKgYgYOvqPBykI2AoTpQfhpJ9W3eXO9ClFIqZ9Z1bHMzeWj2EjxiBskTE2n0DCW97h',
   };
 
   return (
-    <div className="container d-flex align-items-center justify-content-center" style={{ padding: '5%', fontFamily: 'Arial, sans-serif', minHeight: '100vh' }}>
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2%' }}>
+    <div className="container" style={{ padding: '5%', fontFamily: 'Arial, sans-serif', minHeight: '100vh' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3em', marginBottom:'3em' }}>
         {audioFile && (
           <audio ref={audioPlayerRef} controls>
             <source src={URL.createObjectURL(audioFile)} type={audioFile.type} />
@@ -183,17 +245,48 @@ const TranscribeAudio = () => {
         )}
       </div>
       {transcribing && (
-        <div className="container-sm border border-primary" style={{ marginBottom: '2%', backgroundColor:'black', textAlign:'center', borderRadius:'10px' }}>
+        <div className="container-sm border border-primary" style={{ marginTop:'3em', backgroundColor:'black', textAlign:'center', borderRadius:'10px' }}>
           <Hearts /> <span style={{color:'white'}}>- Listening and typing...</span>{/* Display LinearProgress component while transcribing */}
         </div>
       )}
       {transcriptionText && (
         <div style={{ marginBottom: '2%' }}>
-          <ReactQuill
+          <div
+            style={{
+              backgroundColor: '#f2f2f2',
+              borderRadius: '8px',
+              padding: '20px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              maxWidth: '400px',
+              margin: '0 auto',
+              textAlign: 'center',
+              fontFamily: 'Arial, sans-serif',
+              fontSize: '16px',
+              color: '#333',
+            }}
+          >
+            <p style={{ fontFamily: 'Arial', marginBottom: '20px', fontWeight: 'bold' }}>
+              Do you have special requirements or not yet satisfied?&#128064; Let's now leverage human expertise.
+            </p>
+            <p style={{ marginBottom: '20px' }}>
+              Include your requirements at the top of the transcript, then smash the review button.
+            </p>
+          </div>
+          <textarea
             value={transcriptionText}
             onChange={handleEditorChange}
-            style={{ border: '1px solid #ccc', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.4)' }}
-            theme="snow"
+            style={{
+              width: '100%',
+              minHeight: '200px',
+              resize: 'vertical', // Allows vertical resizing
+              fontSize: '18px', // Increase font size
+              padding: '10px',
+              borderRadius: '8px',
+              border: '1px solid #ccc',
+              outline: 'none',
+              transition: 'border-color 0.2s',
+              marginTop:'3em'
+            }}
           />
           <div style={{ display: 'flex', justifyContent: 'space-between', margin: '2% 0' }}>
             <SaveButton handleSave={handleSave} saved={saved} />
@@ -213,9 +306,10 @@ const TranscribeAudio = () => {
         </div>
       )}
       {!transcriptionText && (
-        <div className='upload-form' style={{ marginBottom: '2%' }}>
+        <div className='upload-form' style={{ marginTop: '3em' }}>
           <h2 style={{fontFamily: 'Arial', fontWeight:'bold'}}>Audio Transcription</h2>
           <p>Upload an audio file and we'll squeeze text from it. &#128523;</p>
+          <p>Remaining Free Minutes: {Math.max(0, Math.floor(remainingFreeMinutes))}</p>
           <input style={{ borderRadius: '4px', margin: '1%' }} type="file" name="audio" id="audio" accept="audio/*" onChange={handleUpload} />
           <br />
                               {/* Add check buttons for response format */}
@@ -244,7 +338,7 @@ const TranscribeAudio = () => {
           </div>
           <button style={{ borderRadius: '4px', margin: '1%' }} className="btn btn-primary btn-sm" 
           id="transcribeButton" 
-          onClick={payButtons} 
+          onClick={handleTranscribeWithFreeTrial} 
           disabled={!audioFile}>
             Transcribe
           </button>

@@ -22,34 +22,39 @@ import {
 import axios from 'axios';
 
 
-export const load_user = () => async dispatch => {
+export const load_user = () => async (dispatch) => {
     if (localStorage.getItem('access')) {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`,
-                'Accept': 'application/json'
-            }
-        }; 
-
-        try {
-            const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/users/me/`, config);
-    
-            dispatch({
-                type: USER_LOADED_SUCCESS,
-                payload: res.data
-            });
-        } catch (err) {
-            dispatch({
-                type: USER_LOADED_FAIL
-            });
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `JWT ${localStorage.getItem('access')}`,
+          'Accept': 'application/json'
         }
-    } else {
+      };
+  
+      try {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/users/me/`, config);
+  
+        // Extract the 'id' key from the response payload and set it as 'user_id' in local storage
+        const { id } = res.data;
+        localStorage.setItem('user_id', id);
+  
         dispatch({
-            type: USER_LOADED_FAIL
+          type: USER_LOADED_SUCCESS,
+          payload: res.data
         });
+      } catch (err) {
+        dispatch({
+          type: USER_LOADED_FAIL
+        });
+      }
+    } else {
+      dispatch({
+        type: USER_LOADED_FAIL
+      });
     }
-};
+  };
+  
 
 
 export const googleAuthenticate = (state, code) => async dispatch => {

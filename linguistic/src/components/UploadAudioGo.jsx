@@ -145,8 +145,8 @@ const UploadAudioGo = () => {
   };
 
   return (
-    <div className="container d-flex align-items-center justify-content-center" style={{ padding: '5%', fontFamily: 'Arial, sans-serif', minHeight: '100vh' }}>
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2%' }}>
+    <div className="container" style={{ padding: '5%', fontFamily: 'Arial, sans-serif', minHeight: '100vh' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3em' }}>
         {audioFile && (
           <audio ref={audioPlayerRef} controls>
             <source src={URL.createObjectURL(audioFile)} type={audioFile.type} />
@@ -176,7 +176,7 @@ const UploadAudioGo = () => {
         </div>
       )}
       {!transcriptionText && (
-        <div className="upload-form" style={{ marginBottom: '2%' }}>
+        <div className='upload-form' style={{ marginTop: '3em' }}>
           <h2 style={{fontFamily: 'Arial', fontWeight:'bold'}}>Audio Transcription</h2>
           <p>Upload an audio file and we'll squeeze text from it. &#128523;</p>
           <input

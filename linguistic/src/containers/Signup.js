@@ -69,7 +69,7 @@ const Signup = ({ signup, isAuthenticated }) => {
 
 
   return (
-    <div className="container mt-5">
+    <div className="container" style={{marginTop:'5em'}}>
       <div className="row justify-content-center">
         <div className="col-md-6">
           <div className="card shadow">

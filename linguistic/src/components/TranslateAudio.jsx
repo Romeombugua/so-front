@@ -11,6 +11,7 @@ const TranslateAudio = () => {
   const [audioFile, setAudioFile] = useState(null);
   const [translationText, setTranslationText] = useState('');
   const [saved, setSaved] = useState(false); // Track if changes are saved
+  const [user_id, setUserId] = useState(null);
   const [id, setId] = useState(null);
   const [translationFile, setTranslationFile] = useState(null);
   const [transcribing, setTranscribing] = useState(false);
@@ -18,6 +19,8 @@ const TranslateAudio = () => {
   const [showPayPalButtons, setShowPayPalButtons] = useState(false); // Track if PayPal buttons should be displayed
   const [responseFormat, setResponseFormat] = useState('srt'); // Track the selected response format
   const [amount, setAmount] = useState(0.50); // Default amount value
+  const [remainingFreeMinutes, setRemainingFreeMinutes] = useState(null);
+  const [audioDuration, setAudioDuration] = useState(null);
   const audioPlayerRef = useRef(null);
 
   const config = {
@@ -25,6 +28,44 @@ const TranslateAudio = () => {
         'Authorization': `JWT ${localStorage.getItem('access')}`,
     }
   }; 
+
+  useEffect(() => {
+    // Call fetchRemainingFreeMinutes here when the component mounts
+    const user_id = localStorage.getItem('user_id');
+    setUserId(user_id);
+
+    // ... Other useEffect logic ...
+
+  }, []);
+
+  useEffect(() => {
+    // Fetch remaining free minutes when user_id is available
+    if (user_id) {
+      fetchRemainingFreeMinutes();
+    }
+    // ... Other useEffect logic ...
+
+  }, [user_id]);
+
+  const fetchRemainingFreeMinutes = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/free/${user_id}`, config);
+      setRemainingFreeMinutes(response.data.remainingfreeminutes);
+    } catch (error) {
+      console.error('Error fetching remaining free minutes:', error);
+    }
+  };
+
+  const handleUpdateRemainingFreeMinutes = async (newMinutes) => {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/free/${user_id}`, {
+        remainingfreeminutes: newMinutes,
+      }, config);
+      setRemainingFreeMinutes(response.data.remainingfreeminutes);
+    } catch (error) {
+      console.error('Error updating remaining free minutes:', error);
+    }
+  };
 
   const handleUpload = (e) => {
     const file = e.target.files[0];
@@ -66,6 +107,17 @@ const TranslateAudio = () => {
     }
   };
 
+  const handleTranscribeWithFreeTrial = async () => {
+    if (remainingFreeMinutes <= 0) {
+      setShowPayPalButtons(true);
+      window.alert('Your free trial has ended. Please complete your payment using one of our secure payment options.');
+    } else {
+      handleTranslate();
+      const remainder = remainingFreeMinutes - audioDuration;
+      handleUpdateRemainingFreeMinutes(remainder);
+
+    }
+  };
 
 
   const handleSave = async () => {
@@ -80,7 +132,11 @@ const TranslateAudio = () => {
     }
   };
 
-  const handleEditorChange = (value) => {
+  const handleEditorChange = (event) => {
+    // Insert line breaks before and after timestamps
+    const value = event.target.value;
+    //const formattedValue = value.replace(/(\d{2}:\d{2}:\d{2},\d{3})/g, '$1\n');
+
     setTranslationText(value);
   };
 
@@ -136,8 +192,8 @@ const TranslateAudio = () => {
   };
 
   return (
-    <div className="container d-flex align-items-center justify-content-center" style={{ padding: '5%', fontFamily: 'Arial, sans-serif', minHeight: '100vh' }}>
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2%' }}>
+    <div className="container" style={{ padding: '5%', fontFamily: 'Arial, sans-serif', minHeight: '100vh' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3em' }}>
         {audioFile && (
           <audio ref={audioPlayerRef} controls>
             <source src={URL.createObjectURL(audioFile)} type={audioFile.type} />
@@ -145,17 +201,27 @@ const TranslateAudio = () => {
         )}
       </div>
       {transcribing && (
-        <div className="container-sm border border-primary" style={{ marginBottom: '2%', backgroundColor:'black', textAlign:'center', borderRadius:'10px' }}>
+        <div className="container-sm border border-primary" style={{ marginTop:'3em', backgroundColor:'black', textAlign:'center', borderRadius:'10px' }}>
           <Hearts /> <span style={{color:'white'}}>- Listening and typing...</span>{/* Display LinearProgress component while transcribing */}
         </div>
       )}
       {translationText && (
         <div style={{ marginBottom: '2%' }}>
-          <ReactQuill
+          <textarea
             value={translationText}
             onChange={handleEditorChange}
-            style={{ border: '1px solid #ccc', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.4)' }}
-            theme="snow"
+            style={{
+              width: '100%',
+              minHeight: '200px',
+              resize: 'vertical', // Allows vertical resizing
+              fontSize: '18px', // Increase font size
+              padding: '10px',
+              borderRadius: '8px',
+              border: '1px solid #ccc',
+              outline: 'none',
+              transition: 'border-color 0.2s',
+              marginTop:'3em'
+            }}
           />
           <div style={{ display: 'flex', justifyContent: 'space-between', margin: '2% 0' }}>
             <SaveButton handleSave={handleSave} saved={saved} />
@@ -163,9 +229,10 @@ const TranslateAudio = () => {
         </div>
       )}
       {!translationText && (
-        <div className='upload-form' style={{ marginBottom: '2%' }}>
+        <div className='upload-form' style={{ marginTop: '3em' }}>
           <h2 style={{fontFamily: 'Arial', fontWeight:'bold'}}>Audio Translation</h2>
           <p>Upload an audio file and we'll squeeze text from it. &#128523;</p>
+          <p>Remaining Free Minutes: {Math.max(0, Math.floor(remainingFreeMinutes))}</p>
           <input style={{ borderRadius: '4px', margin: '1%' }} type="file" name="audio" id="audio" accept="audio/*" onChange={handleUpload} />
           <br />
                               {/* Add check buttons for response format */}
@@ -192,8 +259,8 @@ const TranslateAudio = () => {
               Generate Text
             </label>
           </div>
-          <button style={{ borderRadius: '4px', margin: '1%' }} className="btn btn-primary btn-sm" id="transcribeButton" onClick={payButtons} disabled={!audioFile}>
-            Transcribe
+          <button style={{ borderRadius: '4px', margin: '1%' }} className="btn btn-primary btn-sm" id="transcribeButton" onClick={handleTranscribeWithFreeTrial} disabled={!audioFile}>
+            Translate
           </button>
           {showPayPalButtons && (
             <PayPal amount={amount} handlePaymentApprove={handlePaymentApprove} />
