@@ -195,11 +195,21 @@ const TranslateAudioGo = () => {
       )}
       {translationText && (
         <div style={{ marginBottom: '2%' }}>
-          <ReactQuill
+          <textarea
             value={translationText}
             onChange={handleEditorChange}
-            style={{ border: '1px solid #ccc', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.4)'  }}
-            theme="snow"
+            style={{
+              width: '100%',
+              minHeight: '200px',
+              resize: 'vertical', // Allows vertical resizing
+              fontSize: '18px', // Increase font size
+              padding: '10px',
+              borderRadius: '8px',
+              border: '1px solid #ccc',
+              outline: 'none',
+              transition: 'border-color 0.2s',
+              marginTop:'3em'
+            }}
           />
           <div style={{ display: 'flex', justifyContent: 'space-between', margin: '2% 0' }}>
             <SaveButton handleSave={handleSave} saved={saved} />
