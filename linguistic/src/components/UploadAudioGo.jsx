@@ -83,6 +83,7 @@ const UploadAudioGo = () => {
     if (transcriptionFile) {
       // Construct the full URL by appending REACT_APP_API_URL to the transcription_file URL
       const fullURL = `${process.env.REACT_APP_API_URL}${transcriptionFile}`;
+      console.log(fullURL);
       fetch(fullURL)
         .then((response) => response.blob())
         .then((blob) => {
