@@ -12,12 +12,12 @@ const Foota = () => {
             <div className="row">
               <div className="col-sm-6 mb-3 mt-2 mb-sm-0">
                 <div className="footer-contact-item bg-white p-2">
-                  <a href="mailto:someone@example.com"> <i className="fa fa-envelope" aria-hidden="true"> </i></a>
+                  <a href="mailto:info.linguifyhub@gmail.com"> <i className="fa fa-envelope" aria-hidden="true"> </i></a>
                 </div>
               </div>
               <div className="col-sm-6 mt-2">
                 <div className="footer-contact-item bg-white p-2">
-                  <a href="tel:+05890000111"> <i className="fa fa-phone" aria-hidden="true"> </i></a>
+                  <a href="tel:+254717102096"> <i className="fa fa-phone" aria-hidden="true"> </i></a>
                 </div>
               </div>
             </div>

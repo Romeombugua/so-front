@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap';
 const Privacy = () => {
   return (
     <Container>
-      <h1 className="text-center" style={{ fontFamily:'"Lucida Console", "Courier New", monospace' }}>Privacy Policy</h1>
+      <h1 className="text-center" style={{ fontFamily:'"Lucida Console", "Courier New", monospace', marginTop:'2.5em' }}>Privacy Policy</h1>
       <p className="text-justify">
         At LinguifyHub, we are committed to protecting the privacy and confidentiality of our users' personal information.
         This Privacy Statement outlines the types of information we collect, how we use and protect that information, and your rights regarding your personal data.
@@ -37,9 +37,9 @@ const Privacy = () => {
       </p>
       <h2>5. Contact Us</h2>
       <p>
-        If you have any questions, concerns, or requests regarding this Privacy Statement or our privacy practices, please contact us at [contact email].
+        If you have any questions, concerns, or requests regarding this Privacy Statement or our privacy practices, please contact us at <a href="mailto:info.linguifyhub@gmail.com">info.linguifyhub@gmail.com</a> .
       </p>
-      <p>Last updated: [Date]</p>
+      <p>Last updated: 7/15/2023 </p>
     </Container>
   );
 };

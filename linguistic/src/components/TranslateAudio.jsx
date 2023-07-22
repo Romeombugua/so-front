@@ -6,6 +6,7 @@ import SaveButton from './SaveButton';
 import { Hearts } from 'react-loading-icons';
 import PayPal from './Paypal';
 import './css/textpage.css';
+import FeedbackForm from './FeedbackForm';
 
 const TranslateAudio = () => {
   const [audioFile, setAudioFile] = useState(null);
@@ -215,7 +216,7 @@ const TranslateAudio = () => {
             onChange={handleEditorChange}
             style={{
               width: '100%',
-              minHeight: '200px',
+              minHeight: '30em',
               resize: 'vertical', // Allows vertical resizing
               fontSize: '18px', // Increase font size
               padding: '10px',
@@ -275,6 +276,9 @@ const TranslateAudio = () => {
           <h6>{responseFormat} file:</h6>
           <button className="btn btn-outline-primary" onClick={downloadTranslationFile}>Download</button>
         </div>
+      )}
+      {translationText && (
+        <FeedbackForm/>
       )}
     </div>
   );

@@ -14,3 +14,5 @@ export {default as Privacy} from './Privacy';
 export {default as ContactForm} from './ContactForm';
 export {default as Paypal} from './Paypal';
 export {default as Poster} from './Poster';
+export {default as LanguageSearch} from './Language';
+export {default as FeedbackForm} from './FeedbackForm';

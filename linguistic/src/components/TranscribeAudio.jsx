@@ -7,6 +7,7 @@ import { Hearts } from 'react-loading-icons';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import PayPal from './Paypal';
 import './css/textpage.css';
+import FeedbackForm from './FeedbackForm';
 
 const TranscribeAudio = () => {
   const [audioFile, setAudioFile] = useState(null);
@@ -357,6 +358,9 @@ const TranscribeAudio = () => {
             Download
           </button>
         </div>
+      )}
+      {transcriptionText && (
+        <FeedbackForm/>
       )}
 
       {/*<PayPalScriptProvider options={initialOptions}>

@@ -5,6 +5,7 @@ import 'react-quill/dist/quill.snow.css';
 import SaveButton from './SaveButton';
 import { Hearts } from 'react-loading-icons';
 import PayPal from './Paypal';
+import FeedbackForm from './FeedbackForm';
 
 
 const TranslateAudioGo = () => {
@@ -226,6 +227,9 @@ const TranslateAudioGo = () => {
           <h4>{responseFormat} file:</h4>
           <button className="btn btn-outline-primary" onClick={downloadTranslationFile}>Download</button>
         </div>
+      )}
+      {translationText && (
+        <FeedbackForm/>
       )}
     </div>
   );

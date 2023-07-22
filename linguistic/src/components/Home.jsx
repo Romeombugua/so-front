@@ -11,6 +11,7 @@ import Foota from './Foota';
 import ContactForm from './ContactForm';
 import Intro from './Intro';
 import Poster from './Poster';
+import LanguageSearch from './Language';
 
 const Home = ({ isAuthenticated }) => {
   const guestscribeLinks = () => (
@@ -51,13 +52,16 @@ const Home = ({ isAuthenticated }) => {
       <main className="landing-page-content">
         <section>
           <p className="about-text">
+          <p className="text-center" style={{fontWeight:'bold'}}>*Beta Mode*</p>
             We find joy in playing with words. Will you let us be part of your success story? &#129402;
           </p>
         </section>
         <section>
           <Intro/>
         </section>
-        
+        <section>
+          <LanguageSearch/>
+        </section>
         <section className="transcribe-section fade-in" >
           <div className="transcribe-text">
             <h2>Transcribe</h2>

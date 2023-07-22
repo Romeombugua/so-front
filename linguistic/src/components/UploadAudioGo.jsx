@@ -5,6 +5,7 @@ import 'react-quill/dist/quill.snow.css';
 import SaveButton from './SaveButton';
 import { Hearts } from 'react-loading-icons';
 import PayPal from './Paypal';
+import FeedbackForm from './FeedbackForm';
 
 import './css/textpage.css';
 
@@ -247,6 +248,9 @@ const UploadAudioGo = () => {
             Download
           </button>
         </div>
+      )}
+      {transcriptionText && (
+        <FeedbackForm/>
       )}
     </div>
   );
