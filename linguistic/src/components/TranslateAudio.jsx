@@ -142,7 +142,10 @@ const TranslateAudio = () => {
 
   const downloadTranslationFile = () => {
     if (translationFile) {
-      fetch(translationFile)
+      // Construct the full URL by appending REACT_APP_API_URL to the transcription_file URL
+      const fullURL = `${process.env.REACT_APP_API_URL}${translationFile}`;
+      console.log(fullURL);
+      fetch(fullURL)
         .then((response) => response.blob())
         .then((blob) => {
           const fileURL = URL.createObjectURL(blob);
