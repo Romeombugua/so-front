@@ -51,10 +51,10 @@ const Home = ({ isAuthenticated }) => {
       <Waves />
       <main className="landing-page-content">
         <section>
-          <p className="about-text">
+          <div className="about-text">
           <p className="text-center" style={{fontWeight:'bold'}}>*Beta Mode*</p>
             We find joy in playing with words. Will you let us be part of your success story? &#129402;
-          </p>
+          </div>
         </section>
         <section>
           <Intro/>
