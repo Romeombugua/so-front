@@ -20,10 +20,7 @@ const ResetPassword = ({ reset_password }) => {
         setRequestSent(true);
     };
 
-    if (requestSent) {
-        window.alert('Check your Email for password reset instructions');
-        return <Navigate to='/' />
-    }
+
 
     return (
         <div className="container shadow p-3 bg-white rounded" style={{marginTop:"7.5em"}}>
@@ -42,6 +39,11 @@ const ResetPassword = ({ reset_password }) => {
                 </div>
                 <button className='btn btn-primary' type='submit'>Reset Password</button>
             </form>
+            {requestSent && (
+                <div className="alert alert-success" style={{marginTop:'1em'}}>
+                  <strong>Success!</strong> Password reset instructions have been sent to {email}.
+                </div>
+            )}
         </div>
     );
 };
