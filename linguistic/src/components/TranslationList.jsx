@@ -142,6 +142,9 @@ const TranslationList = () => {
           </div>
         ))
       )}
+      <p className="footer-copyright">
+        &copy; {new Date().getFullYear()} LinguifyHub. All rights reserved.
+      </p>
     </div>
   );
 };

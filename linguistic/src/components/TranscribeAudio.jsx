@@ -52,6 +52,7 @@ const TranscribeAudio = () => {
 
   }, [user_id]);
 
+
   const handleUpload = (e) => {
     const file = e.target.files[0];
     setAudioFile(file);
@@ -91,11 +92,6 @@ const TranscribeAudio = () => {
     setReviewButtonDisabled(true);
   };
 
-  useEffect(() => {
-    if (paymentCompleted) {
-      handleTranscribe();
-    }
-  }, [paymentCompleted]);
 
   useEffect(() => {
     if (paymentCompletedReview) {
@@ -117,8 +113,10 @@ const TranscribeAudio = () => {
         setTranscriptionFile(response.data.transcription_file);
       } catch (error) {
         console.log(error);
+        window.alert('Sorry. An error occurred!')
       } finally {
-        setTranscribing(false); // Set transcribing state back to false when transcription is completed or encounters an error
+        setTranscribing(false);
+        setShowPayPalButtons(false); // Set transcribing state back to false when transcription is completed or encounters an error
       }
   };
 
@@ -224,13 +222,16 @@ const TranscribeAudio = () => {
         if (duration > remainingFreeMinutes) {
           setShowPayPalButtons(true);
         }
+        if (paymentCompleted) {
+          handleTranscribe();
+        }
       });
 
       return () => {
         audio.removeEventListener('loadedmetadata', () => {});
       };
     }
-  }, [audioFile]);
+  }, [audioFile, paymentCompleted, remainingFreeMinutes]);
 
 
 
@@ -281,7 +282,7 @@ const TranscribeAudio = () => {
             onChange={handleEditorChange}
             style={{
               width: '100%',
-              minHeight: '200px',
+              minHeight: '30em',
               resize: 'vertical', // Allows vertical resizing
               fontSize: '18px', // Increase font size
               padding: '10px',

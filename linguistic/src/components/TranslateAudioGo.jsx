@@ -32,12 +32,6 @@ const TranslateAudioGo = () => {
     setShowPayPalButtons(false); 
   };
 
-  useEffect(() => {
-    if (paymentCompleted) {
-      handleTranslate();
-    }
-  }, [paymentCompleted]);
-
   const payButtons = async () => {
     setShowPayPalButtons(true);
     window.alert('To continue, please complete your payment using one of our secure payment options.');
@@ -133,13 +127,16 @@ const TranslateAudioGo = () => {
         } else {
           setAmount(0.50);
         }
+        if (paymentCompleted) {
+          handleTranslate();
+        }
       });
 
       return () => {
         audio.removeEventListener('loadedmetadata', () => {});
       };
     }
-  }, [audioFile]);
+  }, [audioFile,paymentCompleted]);
 
   
   const initialOptions = {
@@ -205,7 +202,7 @@ const TranslateAudioGo = () => {
             onChange={handleEditorChange}
             style={{
               width: '100%',
-              minHeight: '200px',
+              minHeight: '30em',
               resize: 'vertical', // Allows vertical resizing
               fontSize: '18px', // Increase font size
               padding: '10px',

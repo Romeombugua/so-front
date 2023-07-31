@@ -79,16 +79,6 @@ const TranslateAudio = () => {
     setShowPayPalButtons(false); 
   };
 
-  useEffect(() => {
-    if (paymentCompleted) {
-      handleTranslate();
-    }
-  }, [paymentCompleted]);
-
-  const payButtons = async () => {
-    setShowPayPalButtons(true);
-    window.alert('To continue, please complete your payment using one of our secure payment options.');
-  }
 
   const handleTranslate = async () => {
     const formData = new FormData();
@@ -102,6 +92,7 @@ const TranslateAudio = () => {
       setId(response.data.id);
       setTranslationFile(response.data.translation_file);
     } catch (error) {
+      window.alert('Sorry. An error occurred!');
       console.log(error);
     }finally {
       setTranscribing(false); // Set transcribing state back to false when transcription is completed or encounters an error
@@ -171,10 +162,14 @@ const TranslateAudio = () => {
     if (audioFile) {
       const audio = new Audio();
       audio.src = URL.createObjectURL(audioFile);
+      
 
       audio.addEventListener('loadedmetadata', () => {
         const duration = audio.duration / 60;
         const maxLength = 2; // 2 minutes in seconds
+        setAudioDuration(duration);
+        
+        
 
         if (duration > maxLength) {
           const newAmount = (duration * 0.30).toFixed(2);
@@ -182,13 +177,20 @@ const TranslateAudio = () => {
         } else {
           setAmount(0.50);
         }
+        if (duration > remainingFreeMinutes) {
+          setShowPayPalButtons(true);
+        }
+        if (paymentCompleted) {
+          handleTranslate();
+        }
       });
 
       return () => {
         audio.removeEventListener('loadedmetadata', () => {});
       };
     }
-  }, [audioFile]);
+  }, [audioFile, paymentCompleted]);
+
 
 
   const initialOptions = {

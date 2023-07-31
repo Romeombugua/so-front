@@ -77,7 +77,7 @@ const Signup = ({ signup, isAuthenticated }) => {
               <h1 className="card-title text-center">Sign Up</h1>
               <p className="card-text text-center">Create your Account</p>
               {error && <div className="alert alert-danger">{error}</div>}
-              {accountCreated && <div class="alert alert-success">
+              {accountCreated && <div className="alert alert-success">
                 Account created successfully! Check your mail for activation link
               </div>}
               <form onSubmit={e => onSubmit(e)}>

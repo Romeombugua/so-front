@@ -33,12 +33,6 @@ const UploadAudioGo = () => {
     setShowPayPalButtons(false);
   };
 
-  useEffect(() => {
-    if (paymentCompleted) {
-      handleTranscribe();
-    }
-  }, [paymentCompleted]);
-
   const payButtons = async () => {
     setShowPayPalButtons(true);
     window.alert('To continue, please complete your payment using one of our secure payment options.');
@@ -136,13 +130,16 @@ const UploadAudioGo = () => {
         } else {
           setAmount(0.50);
         }
+        if (paymentCompleted) {
+          handleTranscribe();
+        }
       });
 
       return () => {
         audio.removeEventListener('loadedmetadata', () => {});
       };
     }
-  }, [audioFile]);
+  }, [audioFile, paymentCompleted]);
 
   const initialOptions = {
     'client-id': 'AYHSg9MQnZAo6vDKgYgYOvqPBykI2AoTpQfhpJ9W3eXO9ClFIqZ9Z1bHMzeWj2EjxiBskTE2n0DCW97h',
@@ -170,7 +167,7 @@ const UploadAudioGo = () => {
             onChange={handleEditorChange}
             style={{
               width: '100%',
-              minHeight: '200px',
+              minHeight: '30em',
               resize: 'vertical', // Allows vertical resizing
               fontSize: '18px', // Increase font size
               padding: '10px',

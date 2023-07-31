@@ -9,6 +9,7 @@ import Layout from './hocs/Layout';
 import JobCorner from './components/JobCorner';
 import Careers from './components/Careers';
 import Privacy from './components/Privacy';
+import Recorder from './components/Recorder';
 
 
 const App = () => 
@@ -16,6 +17,7 @@ const App = () =>
     <Provider store={store}>
         <BrowserRouter>
                 <Routes>
+                    <Route path="/record" exact element={< Recorder />} />
                     <Route path="/" exact element={<Layout>< Home /></Layout>} />
                     <Route path="/transcribeGo" element={<Layout>< UploadAudioGo/></Layout>} />
                     <Route path="/translatego" element={<Layout>< TranslateAudioGo/></Layout>} />
