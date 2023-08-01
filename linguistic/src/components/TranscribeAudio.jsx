@@ -58,6 +58,14 @@ const TranscribeAudio = () => {
     setAudioFile(file);
   };
 
+  const handleDownloadComplete = (file) => {
+    setAudioFile(file);
+  };
+
+  const handleError = (errorMessage) => {
+    window.alert(errorMessage);
+  };
+
   
   const fetchRemainingFreeMinutes = async () => {
     try {
@@ -131,11 +139,6 @@ const TranscribeAudio = () => {
 
     }
   };
-
-  const payButtons = async () => {
-    setShowPayPalButtons(true);
-    window.alert('To continue, please complete your payment using one of our secure payment options.');
-  }
 
   const payButtonsReview = async () => {
     setShowPayPalButtons(true);
@@ -313,9 +316,19 @@ const TranscribeAudio = () => {
       {!transcriptionText && (
         <div className='upload-form' style={{ marginTop: '3em' }}>
           <h2 style={{fontFamily: 'Arial', fontWeight:'bold'}}>Audio Transcription</h2>
+          <p>No fuss! No long-term commitment!</p>
           <p>Upload an audio file and we'll squeeze text from it. &#128523;</p>
           <p>Remaining Free Minutes: {Math.max(0, Math.floor(remainingFreeMinutes))}</p>
-          <input style={{ borderRadius: '4px', margin: '1%' }} type="file" name="audio" id="audio" accept="audio/*" onChange={handleUpload} />
+
+          <input style={{ borderRadius: '4px', margin: '1%' }} 
+            type="file" 
+            name="audio" 
+            id="audio" 
+            accept="audio/*" 
+            onChange={handleUpload} 
+            />
+
+          
           <br />
                               {/* Add check buttons for response format */}
           <div>

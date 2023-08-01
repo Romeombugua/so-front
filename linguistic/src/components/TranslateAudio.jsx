@@ -237,6 +237,7 @@ const TranslateAudio = () => {
       {!translationText && (
         <div className='upload-form' style={{ marginTop: '3em' }}>
           <h2 style={{fontFamily: 'Arial', fontWeight:'bold'}}>Audio Translation</h2>
+          <p>No fuss! No long-term commitment!</p>
           <p>Upload an audio file and we'll squeeze text from it. &#128523;</p>
           <p>Remaining Free Minutes: {Math.max(0, Math.floor(remainingFreeMinutes))}</p>
           <input style={{ borderRadius: '4px', margin: '1%' }} type="file" name="audio" id="audio" accept="audio/*" onChange={handleUpload} />

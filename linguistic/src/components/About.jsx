@@ -14,7 +14,7 @@ const About = () => {
                 </p>
                 <h2 className="about-subheading">How It Works</h2>
                 <p className="about-description">
-                    Linguify utilizes state-of-the-art speech recognition and machine translation technologies to transcribe
+                    LinguifyHub utilizes state-of-the-art speech recognition and machine translation technologies to transcribe
                     spoken content and translate it into multiple languages. With our user-friendly interface, you can easily upload
                     audio files or record your voice directly on our platform. Our robust backend processes the audio, generating
                     accurate transcriptions and translations that can be downloaded or shared effortlessly. 
@@ -25,6 +25,9 @@ const About = () => {
                     Break down language barriers and reach a wider audience with just a few clicks
                 </p>
             </div>
+            <p className="footer-copyright">
+                &copy; {new Date().getFullYear()} LinguifyHub. All rights reserved.
+            </p>
         </div>
     )
 }

@@ -101,7 +101,7 @@ const Home = ({ isAuthenticated }) => {
             <div className="row">
               <div className="col-lg-6">
                 <h2 className="text-3xl font-bold mb-4">Pricing</h2>
-                <p className="pricing-description">We offer the cheapest transcription and translation services in the industry starting at $0.30 per audio minute. Our affordable rates ensure high-quality results without breaking the bank. Unlock the power of accurate transcriptions and translations at unbeatable prices.</p>
+                <p className="pricing-description">We offer the cheapest transcription and translation services in the industry starting at $0.20 per audio minute. Our affordable rates ensure high-quality results without breaking the bank. Unlock the power of accurate transcriptions and translations at unbeatable prices.</p>
                 <a href="#transcribe" className="btn btn-primary">Get Started</a>
               </div>
               <div className="col-lg-6 mt-4 mt-lg-0">

@@ -160,6 +160,7 @@ const TranslateAudioGo = () => {
       {!translationText && (
         <div className='upload-form' style={{ marginTop: '3em' }}>
           <h2 style={{fontFamily: 'Arial', fontWeight:'bold'}}>Audio Translation</h2>
+          <p>No fuss! No long-term commitment!</p>
           <p>Upload an audio file and we'll squeeze text from it. &#128523;</p>
           <input style={{ borderRadius: '4px', margin: '1%' }} type="file" name="audio" id="audio" accept="audio/*" onChange={handleUpload} />
           <br />
@@ -188,7 +189,7 @@ const TranslateAudioGo = () => {
             </label>
           </div>
           <button style={{ borderRadius: '4px', margin: '1%' }} className="btn btn-primary btn-sm" id="transcribeButton" onClick={payButtons} disabled={!audioFile}>
-            Transcribe
+            Translate
           </button>
           {showPayPalButtons && (
             <PayPal amount={amount} handlePaymentApprove={handlePaymentApprove} />

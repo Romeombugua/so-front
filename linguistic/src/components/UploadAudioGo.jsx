@@ -189,6 +189,7 @@ const UploadAudioGo = () => {
       {!transcriptionText && (
         <div className='upload-form' style={{ marginTop: '3em' }}>
           <h2 style={{fontFamily: 'Arial', fontWeight:'bold'}}>Audio Transcription</h2>
+          <p>No fuss! No long-term commitment!</p>
           <p>Upload an audio file and we'll squeeze text from it. &#128523;</p>
           <input
             style={{ borderRadius: '4px', margin: '1%' }}

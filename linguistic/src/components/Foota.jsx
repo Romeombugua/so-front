@@ -27,7 +27,8 @@ const Foota = () => {
               <div className="footer-company-links">
                 <Link to="/about" className="d-block mb-2">About</Link>
                 <Link to="/careers" className="d-block mb-2">Careers</Link>
-                <Link to="/privacy" className="d-block">Privacy</Link>
+                <Link to="/privacy" className="d-block mb-2">Privacy</Link>
+                <Link to='/blogs' className="d-block mb-2">Useful Links</Link>
               </div>
             </div>
           </div>

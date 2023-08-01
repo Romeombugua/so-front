@@ -17,7 +17,7 @@ const Intro = () => {
               <div className="card mb-3">
                 <div className="card-body" style={{boxShadow: '0 2px 4px rgba(0, 0, 0, 0.4)'}}>
                   <h5 className="card-title" style={{fontFamily: 'Arial', fontWeight:'bold'}}>Accuracy <i className="fa-solid fa-circle-check" style={{fontSize:'20px'}}></i></h5>
-                  <p className="card-text">We leverage state-of-the-art AI technology and employ professional transcribers to provide you with highly accurate transcripts.
+                  <p className="card-text">We didn't replace humans. Instead, we leverage state-of-the-art AI to make their work easier, ensuring over 99% accuracy for your transcripts.
                   <i className="bi bi-bullseye"></i> 
                   </p>
                 </div>
@@ -25,7 +25,7 @@ const Intro = () => {
               <div className="card mb-3">
                 <div className="card-body" style={{boxShadow: '0 2px 4px rgba(0, 0, 0, 0.4)'}}>
                   <h5 className="card-title" style={{fontFamily: 'Arial', fontWeight:'bold'}}>Speed  <i className="fas fa-tachometer" style={{fontSize:'20px'}}></i> </h5>
-                  <p className="card-text">Do you love instant transcripts? We deliver in less than half the length of your audio file!</p>
+                  <p className="card-text">Do you love instant transcripts? We deliver in less than half the length of your audio file! Reviewed transcripts are sent to your mail in less than 24 hours</p>
                 </div>
               </div>
               <div className="card mb-3">
@@ -37,7 +37,7 @@ const Intro = () => {
               <div className="card mb-3">
                 <div className="card-body" style={{boxShadow: '0 2px 4px rgba(0, 0, 0, 0.4)'}}>
                   <h5 className="card-title" style={{fontFamily: 'Arial', fontWeight:'bold'}}>Cost <i className="fa-solid fa-magnifying-glass-dollar" style={{fontSize:'20px'}}></i></h5>
-                  <p className="card-text">We offer our transcription services at a very competitive and affordable price, ensuring that you receive high-quality transcripts without breaking the bank.</p>
+                  <p className="card-text">We offer our transcription services at a very competitive and affordable price. Almost for nothing!</p>
                 </div>
               </div>
             </div>

@@ -25,7 +25,7 @@ const HowItWorks = () => {
         <div className="step">
           <h6>Step 3</h6>
           <i className="fa-solid fa-dollar-sign step-icon"></i>
-          <div className="step-description">Pay</div>
+          <div className="step-description">Toss a coin</div>
         </div>
         <div className="step">
           <h6>Step 3</h6>

@@ -1,0 +1,46 @@
+/* styles.css (or any other CSS file you are using in your React project) */
+.article-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .article-item {
+    margin-bottom: 20px;
+    padding: 10px;
+
+  }
+  
+  .article-link {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.2s;
+  }
+  
+  .article-link:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .article-title {
+    margin-bottom: 5px;
+    text-align: center;
+  }
+  
+  .article-excerpt {
+    margin-bottom: 10px;
+  }
+  
+  .author-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .article-published {
+    margin-top: 10px;
+  }
+  
