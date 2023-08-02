@@ -153,7 +153,7 @@ const TranslateAudioGo = () => {
         )}
       </div>
       {transcribing && (
-        <div className="container-sm border border-primary" style={{ marginBottom: '2%', backgroundColor:'black', textAlign:'center', borderRadius:'10px' }}>
+        <div className="container-sm border border-primary" style={{ marginTop: '3em', backgroundColor:'black', textAlign:'center', borderRadius:'10px' }}>
           <Hearts /> <span style={{color:'white'}}>- Listening and typing...</span>{/* Display LinearProgress component while transcribing */}
         </div>
       )}
