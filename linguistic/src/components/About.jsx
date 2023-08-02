@@ -22,7 +22,7 @@ const About = () => {
                     Say goodbye to manual transcriptions and embrace the speed and accuracy our app offers.
                     But that's not all  once your audio is transcribed, our robust translation engine comes into play. 
                     You can easily select the target language and watch as your transcribed text is transformed into the language of your choice. 
-                    Break down language barriers and reach a wider audience with just a few clicks
+                    Break down language barriers and reach a wider audience with just a few clicks.
                 </p>
             </div>
             <p className="footer-copyright">

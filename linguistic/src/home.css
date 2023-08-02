@@ -60,7 +60,7 @@
   .transcribe-text {
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 4px 30px;
-    padding: 40px;
+    padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
     display: inline-block;
     text-align: left;
@@ -96,7 +96,7 @@
   .translate-text {
     background-color: rgba(255, 255, 255, 0.9);
     border-radius:30px 4px;
-    padding: 40px;
+    padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
     display: inline-block;
     text-align: left;

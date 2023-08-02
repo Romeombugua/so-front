@@ -28,7 +28,7 @@ const HowItWorks = () => {
           <div className="step-description">Toss a coin</div>
         </div>
         <div className="step">
-          <h6>Step 3</h6>
+          <h6>Step 4</h6>
           <i className="fas fa-cloud-download-alt step-icon"></i>
           <div className="step-description">Click "Transcribe" or "Translate" and download the text</div>
         </div>

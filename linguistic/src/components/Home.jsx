@@ -66,9 +66,9 @@ const Home = ({ isAuthenticated }) => {
           <div className="transcribe-text">
             <h2>Transcribe</h2>
             <p id='transcribe'>
-              Whether it's interviews, lectures, podcasts, or any other audio content, we're here to provide accurate and reliable transcriptions that unlock the power of information.
+              Whether it's interviews, lectures, podcasts, or any other audio content, we're here to provide accurate and reliable transcriptions.
               Focus on what truly matters while we transform your audio into a beautifully transcribed masterpiece.
-              Let us be your trusted partner in bringing your words to life.
+              Let us be your trusted partner in bringing your words to life. {isAuthenticated ? '' : <span style={{fontWeight:'bold'}}>Hit the button below to convert speech to text without an account!</span>}
             </p>
             {isAuthenticated ? authscribeLinks() : guestscribeLinks()}
           </div>
@@ -85,7 +85,7 @@ const Home = ({ isAuthenticated }) => {
               <p >
                 Here, words take flight and soar across borders, carrying with them the power to bridge cultures, connect hearts, and unlock new worlds. 
                 Embark on a journey of words, where every sentence is an adventure, and every translation a gateway to boundless possibilities. 
-                Translate audio file in any language to English!
+                 {isAuthenticated ? '' : <span style={{fontWeight:'bold'}}>Hit the button below to convert speech to English text without an account!</span>}
               </p>
               {isAuthenticated ? authtranslateLinks() : guesttranslateLinks()}
           </div>
@@ -101,7 +101,10 @@ const Home = ({ isAuthenticated }) => {
             <div className="row">
               <div className="col-lg-6">
                 <h2 className="text-3xl font-bold mb-4">Pricing</h2>
-                <p className="pricing-description">We offer the cheapest transcription and translation services in the industry starting at $0.20 per audio minute. Our affordable rates ensure high-quality results without breaking the bank. Unlock the power of accurate transcriptions and translations at unbeatable prices.</p>
+                <p className="pricing-description">We offer the cheapest transcription and translation services in the industry starting at $0.20 per audio minute.
+                  Unlock the power of accurate transcriptions and translations at unbeatable prices. 
+                  Create an account today and convert audio to text for free.
+                </p>
                 <a href="#transcribe" className="btn btn-primary">Get Started</a>
               </div>
               <div className="col-lg-6 mt-4 mt-lg-0">
