@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Circles } from 'react-loading-icons';
 
 const ArticleList = () => {
   const [articles, setArticles] = useState([]);
@@ -18,6 +19,11 @@ const ArticleList = () => {
 
     fetchArticles();
   }, []);
+
+  if (!articles) {
+    // Show a loading message while the article is being fetched
+    return <div><Circles/></div>;
+  }
 
   return (
     <div className="container">

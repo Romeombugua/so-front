@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { Circles } from 'react-loading-icons';
 
 const Article = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const Article = () => {
 
   if (!article) {
     // Show a loading message while the article is being fetched
-    return <div>Loading...</div>;
+    return <div><Circles/></div>;
   }
 
   return (
