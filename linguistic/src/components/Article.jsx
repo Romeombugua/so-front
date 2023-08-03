@@ -60,7 +60,7 @@ const Article = () => {
         </div>
       <p style={{marginTop:"1.5em", color:"#888"}}>Published on: {new Date(article.created_on).toLocaleDateString()}</p>
       <div className="container-sm" style={{ padding: '20px',borderRadius:"10px",boxShadow: "0 2px 4px rgba(0, 0, 0, 0.4)" }}>
-        <p>{article.content}</p>
+        <p dangerouslySetInnerHTML={{__html:article.content}} />
         
       </div>
       <div style={{textAlign:'center',marginTop:'1.5em'}}>

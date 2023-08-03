@@ -36,7 +36,7 @@ const ArticleList = () => {
               <div className="card-body">
                 <h5 className="card-title" style={{textAlign:'center'}}><Link to={`/blogs/${article.id}`} >{article.title}</Link></h5>
                 <p className="card-text mt-3 mb-3" style={{textAlign:"center",color:"#888"}}>{new Date(article.created_on).toLocaleString()}</p>
-                <p className="card-text">{article.content.substring(0, 100)}...</p>
+                <p className="card-text" dangerouslySetInnerHTML={{__html:article.content.substring(0, 100)}} />
               </div>
             </div>
           </div>
