@@ -37,7 +37,7 @@ const Privacy = () => {
       </p>
       <h2>5. Contact Us</h2>
       <p>
-        If you have any questions, concerns, or requests regarding this Privacy Statement or our privacy practices, please contact us at <a href="mailto:info.linguifyhub@gmail.com">info.linguifyhub@gmail.com</a> .
+        If you have any questions, concerns, or requests regarding this Privacy Statement or our privacy practices, please contact us at <a href="mailto:support@linguifyhub.com">support@linguifyhub.com</a> .
       </p>
       <p>Last updated: 7/15/2023 </p>
     </Container>
