@@ -204,7 +204,7 @@ const TranslateAudio = ({isAuthenticated}) => {
     }
   }, [audioFile, paymentCompleted]);
 
-  if (isAuthenticated) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
 

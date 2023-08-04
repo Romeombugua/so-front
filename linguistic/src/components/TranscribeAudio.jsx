@@ -241,7 +241,7 @@ const TranscribeAudio = ({ isAuthenticated }) => {
     }
   }, [audioFile, paymentCompleted, remainingFreeMinutes]);
 
-  if (isAuthenticated) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
 
