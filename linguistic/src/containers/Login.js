@@ -10,6 +10,8 @@ const Login = ({ login, isAuthenticated }) => {
     password: ''
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [error, setError] = useState(null);
 
   const { email, password } = formData;
@@ -21,11 +23,13 @@ const Login = ({ login, isAuthenticated }) => {
     e.preventDefault();
     // Reset the error state on form submit
     setError(null);
+    setIsLoading(true);
     try {
       await login(email, password);
     } catch (err) {
       // Update the error state if the login fails
       setError(err.response.data.detail);
+      setIsLoading(false);
     }
   };
 
@@ -87,7 +91,7 @@ const Login = ({ login, isAuthenticated }) => {
             />
           </div>
           <button className="btn btn-primary btn-block" type="submit">
-            Login
+            {isLoading ? <span>Logging in <i className="fas fa-spinner fa-spin"></i> </span> : 'Login'}
           </button>
         </form>
         {/*<div className="text-center mt-3">

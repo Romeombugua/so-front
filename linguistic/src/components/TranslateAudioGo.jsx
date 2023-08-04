@@ -19,6 +19,7 @@ const TranslateAudioGo = () => {
   const [showPayPalButtons, setShowPayPalButtons] = useState(false); // Track if PayPal buttons should be displayed
   const [responseFormat, setResponseFormat] = useState('srt'); // Track the selected response format
   const [amount, setAmount] = useState(0.50); // Default amount value
+  const [error, setError] = useState(null);
   const audioPlayerRef = useRef(null);
 
   const handleUpload = (e) => {
@@ -43,6 +44,7 @@ const TranslateAudioGo = () => {
     formData.append('response_format', responseFormat); // Pass the selected response format to the server
 
     try {
+      setError(null);
       setTranscribing(true);
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/translatego`, formData);
       setTranslationText(response.data.translation_text);
@@ -50,6 +52,7 @@ const TranslateAudioGo = () => {
       setTranslationFile(response.data.translation_file);
     } catch (error) {
       console.log(error);
+      setError(error.message);
     }finally {
       setTranscribing(false); // Set transcribing state back to false when transcription is completed or encounters an error
     }
@@ -152,6 +155,9 @@ const TranslateAudioGo = () => {
           </audio>
         )}
       </div>
+      {error && (
+        <div style={{textAlign:'center', border: '3px dashed #1c87c9', borderRadius:'10px', color:'red', marginTop:'3em'}}>{error}</div>
+      )}
       {transcribing && (
         <div className="container-sm border border-primary" style={{ marginTop: '3em', backgroundColor:'black', textAlign:'center', borderRadius:'10px' }}>
           <Hearts /> <span style={{color:'white'}}>- Listening and typing...</span>{/* Display LinearProgress component while transcribing */}

@@ -13,6 +13,7 @@ const Signup = ({ signup, isAuthenticated }) => {
     password: '',
     re_password: ''
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const [error, setError] = useState(null);
 
@@ -23,9 +24,12 @@ const Signup = ({ signup, isAuthenticated }) => {
 
   const onSubmit = async e => {
     e.preventDefault();
+    setError(null);
+    setIsLoading(true);
     try {
       await signup(first_name, last_name, email, password, re_password);
       setAccountCreated(true);
+      setIsLoading(false);
     } catch (err) {
       if (err.response && err.response.data) {
         if (err.response.data.email) {
@@ -43,6 +47,7 @@ const Signup = ({ signup, isAuthenticated }) => {
       } else {
         setError('An error occurred. Please try again.');
       }
+      setIsLoading(false);
     }
 
   };
@@ -74,7 +79,9 @@ const Signup = ({ signup, isAuthenticated }) => {
         <div className="col-md-6">
           <div className="card shadow">
             <div className="card-body">
-              <h1 className="card-title text-center">Sign Up</h1>
+              <h1 className="card-title text-center" style={{
+                fontFamily:'"Lucida Console", "Courier New", monospace'
+              }}>Sign Up</h1>
               <p className="card-text text-center">Create your Account</p>
               {error && <div className="alert alert-danger">{error}</div>}
               {accountCreated && <div className="alert alert-success">
@@ -140,7 +147,7 @@ const Signup = ({ signup, isAuthenticated }) => {
                   />
                 </div>
                 <button className="btn btn-primary btn-block" type="submit">
-                  Register
+                  {isLoading ? <span>Signing up <i className="fas fa-spinner fa-spin"></i> </span> : 'Sign Up'}
                 </button>
               </form>
               <div className="text-center mt-3">

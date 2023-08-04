@@ -64,6 +64,7 @@ const TranslationList = () => {
         })
         .catch(error => {
           console.error('Error deleting translation:', error);
+          window.error('Error deleting translation');
         });
     }
   };

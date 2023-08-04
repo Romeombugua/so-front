@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import SaveButton from './SaveButton';
@@ -9,7 +11,7 @@ import PayPal from './Paypal';
 import './css/textpage.css';
 import FeedbackForm from './FeedbackForm';
 
-const TranscribeAudio = () => {
+const TranscribeAudio = ({ isAuthenticated }) => {
   const [audioFile, setAudioFile] = useState(null);
   const [transcriptionText, setTranscriptionText] = useState('');
   const [saved, setSaved] = useState(false); // Track if changes are saved
@@ -26,6 +28,7 @@ const TranscribeAudio = () => {
   const [reviewButtonDisabled, setReviewButtonDisabled] = useState(false); // Track review button disabled status
   const [remainingFreeMinutes, setRemainingFreeMinutes] = useState(null);
   const [audioDuration, setAudioDuration] = useState(null);
+  const [error, setError] = useState(null);
   const audioPlayerRef = useRef(null);
 
   const config = {
@@ -33,6 +36,7 @@ const TranscribeAudio = () => {
       Authorization: `JWT ${localStorage.getItem('access')}`,
     },
   };
+  const remainder = remainingFreeMinutes - audioDuration;
 
   useEffect(() => {
     // Call fetchRemainingFreeMinutes here when the component mounts
@@ -58,32 +62,28 @@ const TranscribeAudio = () => {
     setAudioFile(file);
   };
 
-  const handleDownloadComplete = (file) => {
-    setAudioFile(file);
-  };
-
-  const handleError = (errorMessage) => {
-    window.alert(errorMessage);
-  };
-
   
   const fetchRemainingFreeMinutes = async () => {
     try {
+      setError(null);
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/free/${user_id}`, config);
       setRemainingFreeMinutes(response.data.remainingfreeminutes);
+      
     } catch (error) {
       console.error('Error fetching remaining free minutes:', error);
+      setError(error.message);
     }
   };
 
   const handleUpdateRemainingFreeMinutes = async (newMinutes) => {
     try {
+      setError(null);
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/free/${user_id}`, {
         remainingfreeminutes: newMinutes,
       }, config);
       setRemainingFreeMinutes(response.data.remainingfreeminutes);
     } catch (error) {
-      console.error('Error updating remaining free minutes:', error);
+      setError(error);
     }
   };
 
@@ -114,14 +114,20 @@ const TranscribeAudio = () => {
       formData.append('response_format', responseFormat); // Pass the selected response format to the server
   
       try {
+        setError(null);
         setTranscribing(true);
         const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/transcripts`, formData, config);
         setTranscriptionText(response.data.transcription_text);
         setId(response.data.id);
         setTranscriptionFile(response.data.transcription_file);
+        handleUpdateRemainingFreeMinutes(remainder);
       } catch (error) {
         console.log(error);
-        window.alert('Sorry. An error occurred!')
+        if (error.code === "ERR_BAD_RESPONSE"){
+          setError('Sorry an error occurred on our end. We are working on it')
+        }else{
+          setError(error.message);
+        }
       } finally {
         setTranscribing(false);
         setShowPayPalButtons(false); // Set transcribing state back to false when transcription is completed or encounters an error
@@ -134,8 +140,6 @@ const TranscribeAudio = () => {
       window.alert('Your free trial has ended. Please complete your payment using one of our secure payment options.');
     } else {
       handleTranscribe();
-      const remainder = remainingFreeMinutes - audioDuration;
-      handleUpdateRemainingFreeMinutes(remainder);
 
     }
   };
@@ -147,10 +151,11 @@ const TranscribeAudio = () => {
 
   const handleReview = async () => {
     try {
+      setError(null);
       await axios.patch(`${process.env.REACT_APP_API_URL}/api/transcripts/${id}`, { review: true }, config); // Use the appropriate API endpoint for updating the transcription
       // Update the local state or perform any other necessary actions
     } catch (error) {
-      console.log(error);
+      setError(error.message);
     }
   };
 
@@ -159,10 +164,11 @@ const TranscribeAudio = () => {
     formData.append('transcription_text', transcriptionText);
 
     try {
+      setError(null);
       await axios.patch(`${process.env.REACT_APP_API_URL}/api/transcripts/${id}`, formData, config); // Use the appropriate API endpoint for updating the transcription
       setSaved(true);
     } catch (error) {
-      console.log(error);
+      setError(error.message);
     }
   };
 
@@ -170,7 +176,6 @@ const TranscribeAudio = () => {
     if (transcriptionFile) {
       // Construct the full URL by appending REACT_APP_API_URL to the transcription_file URL
       const fullURL = `${process.env.REACT_APP_API_URL}${transcriptionFile}`;
-      console.log(fullURL);
       fetch(fullURL)
         .then((response) => response.blob())
         .then((blob) => {
@@ -183,7 +188,7 @@ const TranscribeAudio = () => {
           document.body.removeChild(link);
         })
         .catch((error) => {
-          console.error('Error downloading transcription file:', error);
+          window.alert('Error downloading file');
         });
     }
   };
@@ -236,6 +241,10 @@ const TranscribeAudio = () => {
     }
   }, [audioFile, paymentCompleted, remainingFreeMinutes]);
 
+  if (isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+
 
 
 
@@ -252,6 +261,9 @@ const TranscribeAudio = () => {
           </audio>
         )}
       </div>
+      {error && (
+        <div style={{textAlign:'center', border: '3px dashed #1c87c9', borderRadius:'10px', color:'red'}}>{error}</div>
+      )}
       {transcribing && (
         <div className="container-sm border border-primary" style={{ marginTop:'3em', backgroundColor:'black', textAlign:'center', borderRadius:'10px' }}>
           <Hearts /> <span style={{color:'white'}}>- Listening and typing...</span>{/* Display LinearProgress component while transcribing */}
@@ -316,7 +328,6 @@ const TranscribeAudio = () => {
       {!transcriptionText && (
         <div className='upload-form' style={{ marginTop: '3em' }}>
           <h2 style={{fontFamily: 'Arial', fontWeight:'bold'}}>Audio Transcription</h2>
-          <p>No fuss! No long-term commitment!</p>
           <p>Upload an audio file and we'll squeeze text from it. &#128523;</p>
           <p>Remaining Free Minutes: {Math.max(0, Math.floor(remainingFreeMinutes))}</p>
 
@@ -384,4 +395,8 @@ const TranscribeAudio = () => {
   );
 };
 
-export default TranscribeAudio;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.authReducer.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(TranscribeAudio);

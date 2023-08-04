@@ -6,6 +6,8 @@ import { Circles } from 'react-loading-icons';
 const Article = () => {
   const { id } = useParams();
   const [article, setArticle] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     // Fetch the article from the API endpoint
@@ -13,17 +15,45 @@ const Article = () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/blogs/${id}`);
         setArticle(response.data);
+        setIsLoading(false);
       } catch (error) {
         console.error('Error fetching article:', error);
+        setError(error);
+        setIsLoading(false);
       }
     };
 
     fetchArticle();
   }, [id]);
 
-  if (!article) {
-    // Show a loading message while the article is being fetched
-    return <div><Circles/></div>;
+  if (isLoading) {
+    // Show a loading message while the articles are being fetched
+    return <div style={{
+      display: 'flex',
+      width: '50%',      
+      height: '100vh',
+      margin: 'auto',
+      borderRadius: '10px',
+      alignItems:'center',
+      justifyContent:'center',
+      fontWeight:'bold'
+      }}>
+        <i className="fas fa-spinner fa-spin"></i>
+        </div>;
+  }
+  if (error){
+    return <div style={{
+      display: 'flex',
+      width: '50%',      
+      height: '100vh',
+      margin: 'auto',
+      borderRadius: '10px',
+      alignItems:'center',
+      justifyContent:'center',
+      fontWeight:'bold'
+      }}>
+      Sorry, couldn't fetch: {error.message}
+      </div>
   }
 
   return (

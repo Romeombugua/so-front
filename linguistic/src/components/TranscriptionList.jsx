@@ -59,6 +59,7 @@ const TranscriptionList = () => {
       })
       .catch(error => {
         console.error('Error deleting transcription:', error);
+        window.alert('Error deleting transcription');
       });
     }
   };

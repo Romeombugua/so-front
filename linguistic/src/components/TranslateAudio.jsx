@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import SaveButton from './SaveButton';
@@ -8,7 +10,7 @@ import PayPal from './Paypal';
 import './css/textpage.css';
 import FeedbackForm from './FeedbackForm';
 
-const TranslateAudio = () => {
+const TranslateAudio = ({isAuthenticated}) => {
   const [audioFile, setAudioFile] = useState(null);
   const [translationText, setTranslationText] = useState('');
   const [saved, setSaved] = useState(false); // Track if changes are saved
@@ -22,6 +24,7 @@ const TranslateAudio = () => {
   const [amount, setAmount] = useState(0.50); // Default amount value
   const [remainingFreeMinutes, setRemainingFreeMinutes] = useState(null);
   const [audioDuration, setAudioDuration] = useState(null);
+  const [error, setError] = useState(null);
   const audioPlayerRef = useRef(null);
 
   const config = {
@@ -50,21 +53,25 @@ const TranslateAudio = () => {
 
   const fetchRemainingFreeMinutes = async () => {
     try {
+      setError(null);
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/free/${user_id}`, config);
       setRemainingFreeMinutes(response.data.remainingfreeminutes);
     } catch (error) {
       console.error('Error fetching remaining free minutes:', error);
+      setError(error.message);
     }
   };
 
   const handleUpdateRemainingFreeMinutes = async (newMinutes) => {
     try {
+      setError(null);
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/free/${user_id}`, {
         remainingfreeminutes: newMinutes,
       }, config);
       setRemainingFreeMinutes(response.data.remainingfreeminutes);
     } catch (error) {
       console.error('Error updating remaining free minutes:', error);
+      setError(error.message);
     }
   };
 
@@ -86,13 +93,18 @@ const TranslateAudio = () => {
     formData.append('response_format', responseFormat); // Pass the selected response format to the server
 
     try {
+      setError(null);
       setTranscribing(true);
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/translate`, formData, config);
       setTranslationText(response.data.translation_text);
       setId(response.data.id);
       setTranslationFile(response.data.translation_file);
     } catch (error) {
-      window.alert('Sorry. An error occurred!');
+      if (error.code === "ERR_BAD_RESPONSE"){
+        setError('Sorry an error occurred on our end. We are working on it')
+      }else{
+        setError(error.message);
+      }
       console.log(error);
     }finally {
       setTranscribing(false); // Set transcribing state back to false when transcription is completed or encounters an error
@@ -117,10 +129,11 @@ const TranslateAudio = () => {
     formData.append('translation_text', translationText);
 
     try {
+      setError(null);
       await axios.patch(`${process.env.REACT_APP_API_URL}/api/translate/${id}`, formData, config); // Use the appropriate API endpoint for updating the transcription
       setSaved(true);
     } catch (error) {
-      console.log(error);
+      setError(error.message);
     }
   };
 
@@ -191,7 +204,9 @@ const TranslateAudio = () => {
     }
   }, [audioFile, paymentCompleted]);
 
-
+  if (isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
 
   const initialOptions = {
     'client-id': 'AYHSg9MQnZAo6vDKgYgYOvqPBykI2AoTpQfhpJ9W3eXO9ClFIqZ9Z1bHMzeWj2EjxiBskTE2n0DCW97h',
@@ -206,6 +221,9 @@ const TranslateAudio = () => {
           </audio>
         )}
       </div>
+      {error && (
+        <div style={{textAlign:'center', border: '3px dashed #1c87c9', borderRadius:'10px', color:'red', marginTop:'3em'}}>{error}</div>
+      )}
       {transcribing && (
         <div className="container-sm border border-primary" style={{ marginTop:'3em', backgroundColor:'black', textAlign:'center', borderRadius:'10px' }}>
           <Hearts /> <span style={{color:'white'}}>- Listening and typing...</span>{/* Display LinearProgress component while transcribing */}
@@ -237,7 +255,6 @@ const TranslateAudio = () => {
       {!translationText && (
         <div className='upload-form' style={{ marginTop: '3em' }}>
           <h2 style={{fontFamily: 'Arial', fontWeight:'bold'}}>Audio Translation</h2>
-          <p>No fuss! No long-term commitment!</p>
           <p>Upload an audio file and we'll squeeze text from it. &#128523;</p>
           <p>Remaining Free Minutes: {Math.max(0, Math.floor(remainingFreeMinutes))}</p>
           <input style={{ borderRadius: '4px', margin: '1%' }} type="file" name="audio" id="audio" accept="audio/*" onChange={handleUpload} />
@@ -287,4 +304,8 @@ const TranslateAudio = () => {
   );
 };
 
-export default TranslateAudio;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.authReducer.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(TranslateAudio);
