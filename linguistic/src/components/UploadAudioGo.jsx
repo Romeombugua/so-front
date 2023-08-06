@@ -21,11 +21,19 @@ const UploadAudioGo = () => {
   const [responseFormat, setResponseFormat] = useState('srt'); // Track the selected response format
   const [amount, setAmount] = useState(0.50); // Default amount value
   const [error, setError] = useState(null);
+  const [isFileTooLarge, setIsFileTooLarge] = useState(false);
+  const [transcriptionStartTime, setTranscriptionStartTime] = useState(null);
   const audioPlayerRef = useRef(null);
 
   const handleUpload = (e) => {
     const file = e.target.files[0];
-    setAudioFile(file);
+    if (file.size > 24 * 1024 * 1024) {
+      setIsFileTooLarge(true); // Set state to true if the file size is too large
+      setAudioFile(null);
+    } else {
+      setIsFileTooLarge(false); // Reset state if the file size is within limits
+      setAudioFile(file);
+    }
   };
 
   const handlePaymentApprove = async (data, actions) => {
@@ -47,6 +55,7 @@ const UploadAudioGo = () => {
     try {
       setError(null);
       setTranscribing(true);
+      setTranscriptionStartTime(Date.now()); // Record the start time
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/transcribego`, formData);
       setTranscriptionText(response.data.transcription_text);
       setId(response.data.id);
@@ -57,6 +66,15 @@ const UploadAudioGo = () => {
     } finally {
       setTranscribing(false); // Set transcribing state back to false when transcription is completed or encounters an error
     }
+  };
+
+  const getTranscriptionTime = () => {
+    if (transcriptionStartTime && !transcribing) {
+      const currentTime = Date.now();
+      const elapsedTime = (currentTime - transcriptionStartTime) / 1000; // Convert to seconds
+      return `${elapsedTime.toFixed(2)} seconds`;
+    }
+    return 'Calculating...';
   };
 
   const handleSave = () => {
@@ -155,6 +173,11 @@ const UploadAudioGo = () => {
           <audio ref={audioPlayerRef} controls>
             <source src={URL.createObjectURL(audioFile)} type={audioFile.type} />
           </audio>
+        )}
+        {isFileTooLarge && (
+          <div className="alert alert-danger" role="alert">
+            The selected audio file is too large. Please fill our project management form for huge discounts.
+          </div>
         )}
       </div>
       {error && (

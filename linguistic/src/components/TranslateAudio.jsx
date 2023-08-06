@@ -25,6 +25,8 @@ const TranslateAudio = ({isAuthenticated}) => {
   const [remainingFreeMinutes, setRemainingFreeMinutes] = useState(null);
   const [audioDuration, setAudioDuration] = useState(null);
   const [error, setError] = useState(null);
+  const [isFileTooLarge, setIsFileTooLarge] = useState(false);
+  const [transcriptionStartTime, setTranscriptionStartTime] = useState(null);
   const audioPlayerRef = useRef(null);
 
   const config = {
@@ -77,7 +79,13 @@ const TranslateAudio = ({isAuthenticated}) => {
 
   const handleUpload = (e) => {
     const file = e.target.files[0];
-    setAudioFile(file);
+    if (file.size > 24 * 1024 * 1024) {
+      setIsFileTooLarge(true); // Set state to true if the file size is too large
+      setAudioFile(null);
+    } else {
+      setIsFileTooLarge(false); // Reset state if the file size is within limits
+      setAudioFile(file);
+    }
   };
 
   const handlePaymentApprove = async (data, actions) => {
@@ -95,6 +103,7 @@ const TranslateAudio = ({isAuthenticated}) => {
     try {
       setError(null);
       setTranscribing(true);
+      setTranscriptionStartTime(Date.now()); // Record the start time
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/translate`, formData, config);
       setTranslationText(response.data.translation_text);
       setId(response.data.id);
@@ -109,6 +118,15 @@ const TranslateAudio = ({isAuthenticated}) => {
     }finally {
       setTranscribing(false); // Set transcribing state back to false when transcription is completed or encounters an error
     }
+  };
+
+  const getTranscriptionTime = () => {
+    if (transcriptionStartTime && !transcribing) {
+      const currentTime = Date.now();
+      const elapsedTime = (currentTime - transcriptionStartTime) / 1000; // Convert to seconds
+      return `${elapsedTime.toFixed(2)} seconds`;
+    }
+    return 'Calculating...';
   };
 
   const handleTranscribeWithFreeTrial = async () => {
@@ -219,6 +237,11 @@ const TranslateAudio = ({isAuthenticated}) => {
           <audio ref={audioPlayerRef} controls>
             <source src={URL.createObjectURL(audioFile)} type={audioFile.type} />
           </audio>
+        )}
+        {isFileTooLarge && (
+          <div className="alert alert-danger" role="alert">
+            The selected audio file is too large. Please fill our project management form for huge discounts.
+          </div>
         )}
       </div>
       {error && (

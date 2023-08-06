@@ -29,6 +29,8 @@ const TranscribeAudio = ({ isAuthenticated }) => {
   const [remainingFreeMinutes, setRemainingFreeMinutes] = useState(null);
   const [audioDuration, setAudioDuration] = useState(null);
   const [error, setError] = useState(null);
+  const [isFileTooLarge, setIsFileTooLarge] = useState(false);
+  const [transcriptionStartTime, setTranscriptionStartTime] = useState(null);
   const audioPlayerRef = useRef(null);
 
   const config = {
@@ -59,7 +61,13 @@ const TranscribeAudio = ({ isAuthenticated }) => {
 
   const handleUpload = (e) => {
     const file = e.target.files[0];
-    setAudioFile(file);
+    if (file.size > 24 * 1024 * 1024) {
+      setIsFileTooLarge(true); // Set state to true if the file size is too large
+      setAudioFile(null);
+    } else {
+      setIsFileTooLarge(false); // Reset state if the file size is within limits
+      setAudioFile(file);
+    }
   };
 
   
@@ -116,6 +124,7 @@ const TranscribeAudio = ({ isAuthenticated }) => {
       try {
         setError(null);
         setTranscribing(true);
+        setTranscriptionStartTime(Date.now()); // Record the start time
         const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/transcripts`, formData, config);
         setTranscriptionText(response.data.transcription_text);
         setId(response.data.id);
@@ -132,6 +141,15 @@ const TranscribeAudio = ({ isAuthenticated }) => {
         setTranscribing(false);
         setShowPayPalButtons(false); // Set transcribing state back to false when transcription is completed or encounters an error
       }
+  };
+
+  const getTranscriptionTime = () => {
+    if (transcriptionStartTime && !transcribing) {
+      const currentTime = Date.now();
+      const elapsedTime = (currentTime - transcriptionStartTime) / 1000; // Convert to seconds
+      return `${elapsedTime.toFixed(2)} seconds`;
+    }
+    return 'Calculating...';
   };
 
   const handleTranscribeWithFreeTrial = async () => {
@@ -260,6 +278,11 @@ const TranscribeAudio = ({ isAuthenticated }) => {
             <source src={URL.createObjectURL(audioFile)} type={audioFile.type} />
           </audio>
         )}
+        {isFileTooLarge && (
+          <div className="alert alert-danger" role="alert">
+            The selected audio file is too large. Please fill our project management form for huge discounts.
+          </div>
+        )}
       </div>
       {error && (
         <div style={{textAlign:'center', border: '3px dashed #1c87c9', borderRadius:'10px', color:'red'}}>{error}</div>
@@ -285,6 +308,7 @@ const TranscribeAudio = ({ isAuthenticated }) => {
               color: '#333',
             }}
           >
+            <p>Finished in {getTranscriptionTime()}</p>
             <p style={{ fontFamily: 'Arial', marginBottom: '20px', fontWeight: 'bold' }}>
               Do you have special requirements or not yet satisfied?&#128064; Let's now leverage human expertise.
             </p>
