@@ -12,6 +12,7 @@ import ContactForm from './ContactForm';
 import Intro from './Intro';
 import Poster from './Poster';
 import LanguageSearch from './Language';
+import Top from './Top';
 
 const Home = ({ isAuthenticated }) => {
   const guestscribeLinks = () => (
@@ -51,8 +52,10 @@ const Home = ({ isAuthenticated }) => {
       <Waves />
       <main className="landing-page-content">
         <section>
+          <Top/>
+        </section>
+        <section>
           <div className="about-text">
-          <p className="text-center" style={{fontWeight:'bold'}}>*Beta Mode*</p>
             We find joy in playing with words. Will you let us be part of your success story? &#129402;
           </div>
         </section>

@@ -79,9 +79,9 @@ const Signup = ({ signup, isAuthenticated }) => {
         <div className="col-md-6">
           <div className="card shadow">
             <div className="card-body">
-              <h1 className="card-title text-center" style={{
+              <h2 className="card-title text-center" style={{
                 fontFamily:'"Lucida Console", "Courier New", monospace'
-              }}>Sign Up</h1>
+              }}>LinguifyHub</h2>
               <p className="card-text text-center">Create your Account</p>
               {error && <div className="alert alert-danger">{error}</div>}
               {accountCreated && <div className="alert alert-success">

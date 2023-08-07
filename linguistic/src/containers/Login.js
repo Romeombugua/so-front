@@ -62,7 +62,7 @@ const Login = ({ login, isAuthenticated }) => {
   return (
     <div className="container d-flex align-items-center justify-content-center vh-100">
       <div className="card p-4 shadow">
-        <h1 className="card-title text-center">Log In</h1>
+        <h2 className="card-title text-center">LinguifyHub</h2>
         <p className="card-text text-center">Sign into your Account</p>
         {/* Conditionally render the error message */}
         {error && <div className="alert alert-danger">{error}</div>}

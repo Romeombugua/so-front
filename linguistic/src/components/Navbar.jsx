@@ -7,11 +7,13 @@ const Navbar = ({ isAuthenticated, logout }) => {
   const guestLinks = (
     <Fragment>
       <li className='nav-item'>
-        <Link className='nav-link' to='/signup'>Sign Up</Link>
+        <Link className='nav-link' to='/signup'>
+          <button type="button" className="btn btn-light">Sign up</button>
+        </Link>
       </li>
       <li className='nav-item'>
         <Link className='nav-link' to='/login'>
-          <span style={{backgroundColor:'red', borderRadius:'10px', padding:'0.5em'}}>Login</span>
+          <button type="button" className="btn btn-outline-danger">Login</button>
         </Link>
       </li>
 

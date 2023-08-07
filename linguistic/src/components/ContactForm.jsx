@@ -28,7 +28,6 @@ const ContactForm = () => {
       body: data,
     });
     // Handle form submission here
-    console.log(formData);
     // Set submitted state to true
     setSubmitted(true);
     // Reset form fields
@@ -41,44 +40,47 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="contact-form-container">
-      <h2 className="form-header">Do you have a large project? We'll assign a project manager to you in a blink.</h2>
-      <form onSubmit={handleSubmit} className="form">
-        <label className="form-label">
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Message:
-          <textarea
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            className="form-input form-textarea"
-          />
-        </label>
-        <br />
-        <button type="submit" className="form-button">Submit</button>
-        {submitted && <p>Form submitted successfully! We'll be contacting you shortly.</p>}
-      </form>
+    <div className="container">
+      <div className="row">
+        <div className="col-md-6" style={{padding:'70px 0'}}>
+          <h2 className="form-header">Do you have a large project? We'll assign a project manager to you in a blink.</h2>
+        </div>
+        <div className="col-md-6" style={{borderWidth:'5px 0 0 5px', borderStyle:'solid', borderColor:'blue', borderRadius:'10px', padding:'2em'}}>
+          <form onSubmit={handleSubmit} className="form">
+            <div className="form-group">
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="message">Message:</label>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                className="form-control"
+              />
+            </div>
+            <button type="submit" className="btn btn-primary">Submit</button>
+            {submitted && <p>Form submitted successfully! We'll be contacting you shortly.</p>}
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
