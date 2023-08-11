@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import {Helmet} from "react-helmet";
 import { Circles } from 'react-loading-icons';
 
 const Article = () => {
@@ -58,6 +59,11 @@ const Article = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>
+          {article.title}
+        </title>
+      </Helmet>
       <div
         className="article-header"
         style={{
