@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Waves from './Waves';
@@ -13,6 +13,7 @@ import Intro from './Intro';
 import Poster from './Poster';
 import LanguageSearch from './Language';
 import Top from './Top';
+import TrackVisitor from './TrackingUtils';
 
 const Home = ({ isAuthenticated }) => {
   const guestscribeLinks = () => (
@@ -38,6 +39,10 @@ const Home = ({ isAuthenticated }) => {
       </Link>
     </Fragment>
   );
+
+  useEffect(() => {
+    TrackVisitor();
+  }, []);
 
   const authtranslateLinks = () => (
     <Fragment>
